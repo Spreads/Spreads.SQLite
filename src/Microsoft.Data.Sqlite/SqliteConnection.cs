@@ -43,7 +43,7 @@ namespace Microsoft.Data.Sqlite
         {
             ConnectionString = connectionString;
         }
-
+        
         internal virtual Sqlite3Handle DbHandle
             => _db;
 
@@ -248,12 +248,13 @@ namespace Microsoft.Data.Sqlite
         /// </param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                Close();
-            }
-
+            Close();
             base.Dispose(disposing);
+        }
+
+        ~SqliteConnection()
+        {
+            Dispose(false);
         }
 
         /// <summary>
