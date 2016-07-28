@@ -1,50 +1,52 @@
 {
-  "version": "1.1.0-*",
-  "description": "SQLite implementation of the System.Data.Common provider model.\r\n\r\nCommonly Used Types:\r\nMicrosoft.Data.Sqlite.SqliteCommand\r\nMicrosoft.Data.Sqlite.SqliteConnection\r\nMicrosoft.Data.Sqlite.SqliteConnectionStringBuilder\r\nMicrosoft.Data.Sqlite.SqliteDataReader\r\nMicrosoft.Data.Sqlite.SqliteException\r\nMicrosoft.Data.Sqlite.SqliteFactory\r\nMicrosoft.Data.Sqlite.SqliteParameter\r\nMicrosoft.Data.Sqlite.SqliteTransaction",
-  "packOptions": {
-    "tags": [
-      "SQLite",
-      "Data",
-      "ADO.NET"
-    ]
-  },
-  "buildOptions": {
-    "warningsAsErrors": false,
-    "keyFile": "../../tools/Key.snk",
-    "xmlDoc": true,
-    "embed": {
-      "includeFiles": "Properties/Microsoft.Data.Sqlite.rd.xml"
-    },
-    "additionalArguments": [
-        "/ruleset:Microsoft.Data.Sqlite.ruleset",
-        "/additionalfile:stylecop.json"
-    ]
-  },
-  "dependencies": {
-    "SQLite": "3.12.2",
-    "StyleCop.Analyzers": {
-        "version": "1.0.0",
-        "type": "build"
-    }
-  },
-  "frameworks": {
-    "net451": {
-      "frameworkAssemblies": {
-        "System.Data": ""
-      }
-    },
-    "netstandard1.3": {
-      "dependencies": {
-        "System.AppContext": "4.1.0-*",
-        "System.Data.Common": "4.1.0-*",
-        "System.Diagnostics.Debug": "4.0.11-*",
-        "System.Linq": "4.1.0-*",
-        "System.Reflection.Extensions": "4.0.1-*",
-        "System.Resources.ResourceManager": "4.0.1-*",
-        "System.Runtime.Extensions": "4.1.0-*",
-        "System.Runtime.InteropServices": "4.1.0-*",
-        "System.Text.Encoding": "4.0.11-*"
-      }
-    }
-  }
+	"version": "1.1.0-*",
+	"description": "Fork of Microsoft.Data.Sqlite for Spreads special needs",
+	"packOptions": {
+		"tags": [
+			"SQLite",
+			"Data",
+			"ADO.NET",
+			"Spreads"
+		]
+	},
+	"buildOptions": {
+		"outputName": "Spreads.SQLite",
+		"warningsAsErrors": false,
+		"xmlDoc": true,
+		"embed": {
+			"includeFiles": "Properties/Spreads.SQLite.rd.xml"
+		},
+		"additionalArguments": [
+			"/ruleset:Spreads.SQLite.ruleset",
+			"/additionalfile:stylecop.json"
+		]
+	},
+	"dependencies": {
+		"Spreads.Core": "0.6.0-alpha1",
+		"SQLite": "3.12.2",
+		"StyleCop.Analyzers": {
+			"version": "1.0.0",
+			"type": "build"
+		}
+	},
+	"frameworks": {
+		"net451": {
+			"frameworkAssemblies": {
+				"System.Data": ""
+			}
+		},
+		"netstandard1.3": {
+			"dependencies": {
+				"System.AppContext": "4.1.0-*",
+				"System.Data.Common": "4.1.0-*",
+				"System.Diagnostics.Debug": "4.0.11-*",
+				"System.Linq": "4.1.0-*",
+				"System.Reflection.Extensions": "4.0.1-*",
+				"System.Resources.ResourceManager": "4.0.1-*",
+				"System.Runtime.Extensions": "4.1.0-*",
+				"System.Runtime.InteropServices": "4.1.0-*",
+				"System.Text.Encoding": "4.0.11-*"
+			}
+		}
+	}
 }

@@ -24,4 +24,7 @@ launchSettings.json
 *.project.lock.json
 *.nuget.props
 *.nuget.targets
-sqlite3.dll
+*.dll
+*.DotSettings
+/lib/out/
+/lib/nbproject/

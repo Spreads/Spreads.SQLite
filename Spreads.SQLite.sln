@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9396F8F4-299D-427C-B829-EF9A931DAA3C}"
 EndProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.Data.Sqlite", "src\Microsoft.Data.Sqlite\Microsoft.Data.Sqlite.xproj", "{2D5D31C9-4BE6-432E-B3C3-351A7A65353D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spreads.SQLite", "src\Microsoft.Data.Sqlite\Spreads.SQLite.xproj", "{2D5D31C9-4BE6-432E-B3C3-351A7A65353D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ECB63F46-D037-4EEA-A4CD-BF18B5B9D2C4}"
 EndProject
@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Data.Sqlite.Funct
 	ProjectSection(ProjectDependencies) = postProject
 		{2D5D31C9-4BE6-432E-B3C3-351A7A65353D} = {2D5D31C9-4BE6-432E-B3C3-351A7A65353D}
 	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spreads.Core", "..\Spreads\src\Spreads.Core\Spreads.Core.xproj", "{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,22 @@ Global
 		{83982D41-650C-4554-8542-BC98D382ACE0}.Release|x86.ActiveCfg = Release|x86
 		{83982D41-650C-4554-8542-BC98D382ACE0}.Release|x86.Build.0 = Release|x86
 		{83982D41-650C-4554-8542-BC98D382ACE0}.Release|x86.Deploy.0 = Release|x86
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|ARM.Build.0 = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|x64.Build.0 = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Debug|x86.Build.0 = Debug|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|ARM.Build.0 = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|x64.ActiveCfg = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|x64.Build.0 = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|x86.ActiveCfg = Release|Any CPU
+		{B24F6AE4-0AB4-4D40-95DA-5B75CADA3B21}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
