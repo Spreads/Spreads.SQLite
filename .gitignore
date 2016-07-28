@@ -28,3 +28,5 @@ launchSettings.json
 *.DotSettings
 /lib/out/
 /lib/nbproject/
+/lib/*.c
+/lib/*.h
