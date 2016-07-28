@@ -14,7 +14,11 @@
 		"warningsAsErrors": false,
 		"xmlDoc": true,
 		"embed": {
-			"includeFiles": "Properties/Spreads.SQLite.rd.xml"
+			"includeFiles": "Properties/Spreads.SQLite.rd.xml",
+			"mappings": {
+				"win.x64.spreads_sqlite3.dll": "../../lib/out/w64/bin/spreads_sqlite3.dll",
+				"win.x32.spreads_sqlite3.dll": "../../lib/out/w32/bin/spreads_sqlite3.dll"
+			}
 		},
 		"additionalArguments": [
 			"/ruleset:Spreads.SQLite.ruleset",
@@ -23,7 +27,6 @@
 	},
 	"dependencies": {
 		"Spreads.Core": "0.6.0-alpha1",
-		"SQLite": "3.12.2",
 		"StyleCop.Analyzers": {
 			"version": "1.0.0",
 			"type": "build"

@@ -11,7 +11,7 @@ namespace Microsoft.Data.Sqlite.Interop
 {
     internal static partial class NativeMethods
     {
-        private static string _dllName = "sqlite3";
+        private static string _dllName = "spreads_sqlite3";
         private static Lazy<ISqlite3> _sqlite3 = new Lazy<ISqlite3>(() => Load(_dllName));
 
         public static void SetDllName(string dllName)

@@ -14,13 +14,25 @@ using Microsoft.Data.Sqlite.Utilities;
 
 using static Microsoft.Data.Sqlite.Interop.Constants;
 
-namespace Microsoft.Data.Sqlite
-{
+namespace Microsoft.Data.Sqlite {
     /// <summary>
     /// Represents a connection to a SQLite database.
     /// </summary>
     public partial class SqliteConnection : DbConnection
     {
+        static SqliteConnection() {
+            // Ensure Bootstrapper is initialized and native libraries are loaded
+            Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
+                new[] { "spreads_sqlite3" },
+                null,
+                null,
+                null,
+                () => { },
+                () => { },
+                () => {
+                });
+        }
+
         private const string MainDatabaseName = "main";
 
         private string _connectionString;
