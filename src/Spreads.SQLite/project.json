@@ -1,16 +1,20 @@
 {
 	"version": "1.1.0-*",
+	"name": "Spreads.SQLite",
 	"description": "Fork of Microsoft.Data.Sqlite adopted for Spreads.",
 	"packOptions": {
 		"tags": [
 			"SQLite",
 			"Data",
 			"ADO.NET",
-			"Spreads"
-		]
+			"Spreads",
+			"full text search",
+			"FTS5"
+		],
+		"repository": { "url": "https://github.com/Spreads/Spreads.SQLite" }
 	},
 	"buildOptions": {
-		"outputName": "Spreads.SQLite",
+		"optimize": true,
 		"warningsAsErrors": false,
 		"xmlDoc": true,
 		"embed": {
@@ -26,7 +30,7 @@
 		]
 	},
 	"dependencies": {
-		"Spreads.Core": "0.6.0-alpha1",
+		"Spreads.Core": "0.6.0-alpha*",
 		"StyleCop.Analyzers": {
 			"version": "1.0.0",
 			"type": "build"
