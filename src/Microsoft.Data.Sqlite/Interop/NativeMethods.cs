@@ -242,7 +242,7 @@ namespace Microsoft.Data.Sqlite.Interop
         public static int sqlite3_stmt_readonly(Sqlite3StmtHandle pStmt)
             => Sqlite3.stmt_readonly(pStmt);
 
-        private interface ISqlite3
+        private partial interface ISqlite3
         {
             int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
             int bind_double(Sqlite3StmtHandle pStmt, int i, double rValue);

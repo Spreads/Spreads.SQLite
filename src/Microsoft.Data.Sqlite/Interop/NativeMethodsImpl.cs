@@ -35,7 +35,7 @@ namespace Microsoft.Data.Sqlite.Interop
             }
         }
 
-        private class Sqlite3_sqlite3 : ISqlite3
+        private partial class Sqlite3_sqlite3 : ISqlite3
         {
             private const string DllName = "sqlite3";
 
@@ -236,7 +236,7 @@ namespace Microsoft.Data.Sqlite.Interop
             public int stmt_readonly(Sqlite3StmtHandle pStmt)
                 => sqlite3_stmt_readonly(pStmt);
         }
-        private class Sqlite3_winsqlite3 : ISqlite3
+        private partial class Sqlite3_winsqlite3 : ISqlite3
         {
             private const string DllName = "winsqlite3";
 
