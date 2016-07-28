@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{29C82942-7831-4838-8E05-C15DC4390D8B}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Spreads.SQLite", "src\Microsoft.Data.Sqlite\Spreads.SQLite.xproj", "{2D5D31C9-4BE6-432E-B3C3-351A7A65353D}"
