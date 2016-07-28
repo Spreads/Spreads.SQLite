@@ -9,67 +9,159 @@ namespace Microsoft.Data.Sqlite.Interop
     {
         // Result Codes
 
-        /// Successful result					
+        /// <summary>
+        /// Successful result	
+        /// </summary>
         public const int SQLITE_OK = 0;
-        /// SQL error or missing database					
+        
+        /// <summary>
+        /// SQL error or missing database	
+        /// </summary>
         public const int SQLITE_ERROR = 1;
-        /// Internal logic error in SQLite					
+        					
+        /// <summary>
+        /// Internal logic error in SQLite
+        /// </summary>
         public const int SQLITE_INTERNAL = 2;
-        /// Access permission denied					
+        				
+        /// <summary>
+        /// Access permission denied
+        /// </summary>
         public const int SQLITE_PERM = 3;
-        /// Callback routine requested an abort					
+        				
+        /// <summary>
+        /// Callback routine requested an abort	
+        /// </summary>
         public const int SQLITE_ABORT = 4;
-        /// The database file is locked					
+        				
+        /// <summary>
+        /// The database file is locked	
+        /// </summary>
         public const int SQLITE_BUSY = 5;
-        /// A table in the database is locked					
+        				
+        /// <summary>
+        /// A table in the database is locked	
+        /// </summary>
         public const int SQLITE_LOCKED = 6;
-        /// A malloc() failed					
+        				
+        /// <summary>
+        /// A malloc() failed	
+        /// </summary>
         public const int SQLITE_NOMEM = 7;
-        /// Attempt to write a readonly database					
+        					
+        /// <summary>
+        /// Attempt to write a readonly database
+        /// </summary>
         public const int SQLITE_READONLY = 8;
-        /// Operation terminated by sqlite3_interrupt(					
+        					
+        /// <summary>
+        /// Operation terminated by sqlite3_interrupt()
+        /// </summary>
         public const int SQLITE_INTERRUPT = 9;
-        /// Some kind of disk I/O error occurred					
+        				
+        /// <summary>
+        /// Some kind of disk I/O error occurred
+        /// </summary>
         public const int SQLITE_IOERR = 10;
-        /// The database disk image is malformed					
+        				
+        /// <summary>
+        /// The database disk image is malformed
+        /// </summary>
         public const int SQLITE_CORRUPT = 11;
-        /// Unknown opcode in sqlite3_file_control()					
+        				
+        /// <summary>
+        /// Unknown opcode in sqlite3_file_control()
+        /// </summary>
         public const int SQLITE_NOTFOUND = 12;
-        /// Insertion failed because database is full					
+        					
+        /// <summary>
+        /// Insertion failed because database is full
+        /// </summary>
         public const int SQLITE_FULL = 13;
-        /// Unable to open the database file					
+        					
+        /// <summary>
+        /// Unable to open the database file	
+        /// </summary>
         public const int SQLITE_CANTOPEN = 14;
-        /// Database lock protocol error					
+        				
+        /// <summary>
+        /// Database lock protocol error
+        /// </summary>
         public const int SQLITE_PROTOCOL = 15;
-        /// Database is empty					
+        					
+        /// <summary>
+        /// Database is empty	
+        /// </summary>
         public const int SQLITE_EMPTY = 16;
-        /// The database schema changed					
+        					
+        /// <summary>
+        /// The database schema changed	
+        /// </summary>
         public const int SQLITE_SCHEMA = 17;
-        /// String or BLOB exceeds size limit					
+        					
+        /// <summary>
+        /// String or BLOB exceeds size limit
+        /// </summary>
         public const int SQLITE_TOOBIG = 18;
-        /// Abort due to constraint violation					
+        					
+        /// <summary>
+        /// Abort due to constraint violation
+        /// </summary>
         public const int SQLITE_CONSTRAINT = 19;
-        /// Data type mismatch					
+        					
+        /// <summary>
+        /// Data type mismatch	
+        /// </summary>
         public const int SQLITE_MISMATCH = 20;
-        /// Library used incorrectly					
+        				
+        /// <summary>
+        /// Library used incorrectly
+        /// </summary>
         public const int SQLITE_MISUSE = 21;
-        /// Uses OS features not supported on host					
+        					
+        /// <summary>
+        /// Uses OS features not supported on host
+        /// </summary>
         public const int SQLITE_NOLFS = 22;
-        /// Authorization denied					
+        					
+        /// <summary>
+        /// Authorization denied	
+        /// </summary>
         public const int SQLITE_AUTH = 23;
-        /// Auxiliary database format error					
+        					
+        /// <summary>
+        /// Auxiliary database format error	
+        /// </summary>
         public const int SQLITE_FORMAT = 24;
-        /// 2nd parameter to sqlite3_bind out of range					
+        				
+        /// <summary>
+        /// 2nd parameter to sqlite3_bind out of range
+        /// </summary>
         public const int SQLITE_RANGE = 25;
-        /// File opened that is not a database file					
+
+        /// <summary>
+        /// File opened that is not a database file	
+        /// </summary>				
         public const int SQLITE_NOTADB = 26;
-        /// Notifications from sqlite3_log()					
+        					
+        /// <summary>
+        /// Notifications from sqlite3_log()
+        /// </summary>
         public const int SQLITE_NOTICE = 27;
-        /// Warnings from sqlite3_log()					
+        					
+        /// <summary>
+        /// Warnings from sqlite3_log()	
+        /// </summary>
         public const int SQLITE_WARNING = 28;
-        /// sqlite3_step() has another row ready					
+        				
+        /// <summary>
+        /// sqlite3_step() has another row ready
+        /// </summary>
         public const int SQLITE_ROW = 100;
-        /// sqlite3_step() has finished executing					
+
+        /// <summary>
+        /// sqlite3_step() has finished executing	
+        /// </summary>
         public const int SQLITE_DONE = 101;
 
 

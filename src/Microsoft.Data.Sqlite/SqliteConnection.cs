@@ -253,7 +253,7 @@ namespace Microsoft.Data.Sqlite
         }
 
         /// <summary>
-        /// Dispose in finalizer
+        /// Finalizes an instance of the <see cref="SqliteConnection"/> class.
         /// </summary>
         ~SqliteConnection()
         {
