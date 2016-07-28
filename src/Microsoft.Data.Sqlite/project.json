@@ -9,7 +9,7 @@
     ]
   },
   "buildOptions": {
-    "warningsAsErrors": true,
+    "warningsAsErrors": false,
     "keyFile": "../../tools/Key.snk",
     "xmlDoc": true,
     "embed": {

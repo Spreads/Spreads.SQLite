@@ -252,6 +252,9 @@ namespace Microsoft.Data.Sqlite
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Dispose in finalizer
+        /// </summary>
         ~SqliteConnection()
         {
             Dispose(false);
