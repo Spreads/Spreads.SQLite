@@ -20,18 +20,6 @@ namespace Microsoft.Data.Sqlite {
     /// </summary>
     public partial class SqliteConnection : DbConnection
     {
-        static SqliteConnection() {
-            // Ensure Bootstrapper is initialized and native libraries are loaded
-            Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
-                new[] { "spreads_sqlite3" },
-                null,
-                null,
-                null,
-                () => { },
-                () => { },
-                () => {
-                });
-        }
 
         private const string MainDatabaseName = "main";
 

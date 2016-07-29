@@ -20,8 +20,8 @@
 		"embed": {
 			"includeFiles": "Properties/Spreads.SQLite.rd.xml",
 			"mappings": {
-				"win.x64.spreads_sqlite3.dll": "../../lib/out/w64/bin/spreads_sqlite3.dll",
-				"win.x32.spreads_sqlite3.dll": "../../lib/out/w32/bin/spreads_sqlite3.dll"
+				"win.x64.spreads_sqlite3.dll": "../../lib/out/w64/bin/spreads_sqlite3.dll.compressed",
+				"win.x32.spreads_sqlite3.dll": "../../lib/out/w32/bin/spreads_sqlite3.dll.compressed"
 			}
 		},
 		"additionalArguments": [

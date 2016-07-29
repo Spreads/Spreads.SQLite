@@ -11,6 +11,19 @@ namespace Microsoft.Data.Sqlite.Interop
 {
     internal static partial class NativeMethods
     {
+        static NativeMethods() {
+            // Ensure Bootstrapper is initialized and native libraries are loaded
+            Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
+                new[] { "spreads_sqlite3" },
+                null,
+                null,
+                null,
+                () => { },
+                () => { },
+                () => {
+                });
+        }
+
         private static string _dllName = "spreads_sqlite3";
         private static Lazy<ISqlite3> _sqlite3 = new Lazy<ISqlite3>(() => Load(_dllName));
 

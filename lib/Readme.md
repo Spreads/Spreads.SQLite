@@ -1,3 +1,4 @@
-This folder should contain sqlite3.c and sqlite3.h from amalgamation. It is excluded due to large size (7Mb).
+This folder should contain sqlite3.c and sqlite3.h from the amalgamation (https://www.sqlite.org/download.html). It is excluded due to large size (7Mb).
 
-https://www.sqlite.org/download.html
+Run compress.bat to compress all dlls in the out folder.
+
