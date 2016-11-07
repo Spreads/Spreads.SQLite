@@ -374,7 +374,7 @@ namespace Microsoft.Data.Sqlite
         {
             var value = (byte[])_value;
             var offset = _offset ?? 0;
-            var size = _size ?? value.Length;
+            var size = Math.Min(_size ?? value.Length, value.Length);
             if (offset == 0)
             {
                 NativeMethods.sqlite3_bind_blob(stmt, index, value, size, SQLITE_TRANSIENT);
