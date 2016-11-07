@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite.Interop;
 using Microsoft.Data.Sqlite.Utilities;
 using static Microsoft.Data.Sqlite.Interop.Constants;
@@ -498,7 +499,7 @@ namespace Microsoft.Data.Sqlite
         }
 
         /// <summary>
-        /// Reads a stream of bytes from the specified column. Not supported.
+        /// Reads a stream of bytes from the specified column.
         /// </summary>
         /// <param name="ordinal">The zero-based column ordinal.</param>
         /// <param name="dataOffset">The index from which to begin the read operation.</param>
@@ -508,7 +509,7 @@ namespace Microsoft.Data.Sqlite
         /// <returns>The actual number of bytes read.</returns>
         public override long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
         {
-            throw new NotSupportedException();
+            return NativeMethods.sqlite3_column_get_bytes(_stmt, ordinal, checked((int)dataOffset), buffer, bufferOffset, length);
         }
 
         /// <summary>

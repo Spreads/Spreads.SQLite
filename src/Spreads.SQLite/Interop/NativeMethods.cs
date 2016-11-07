@@ -158,6 +158,35 @@ namespace Microsoft.Data.Sqlite.Interop
             return result;
         }
 
+        public static long sqlite3_column_get_bytes(Sqlite3StmtHandle pStmt, int iCol, int dataOffset, byte[] buffer, int bufferOffset, int length) {
+            
+            var ptr = Sqlite3.column_blob(pStmt, iCol);
+            if (ptr == IntPtr.Zero) {
+                return 0L;
+            }
+
+            // length of blob in db
+            var bytes = Sqlite3.column_bytes(pStmt, iCol);
+            if (buffer == null)
+            {
+                // when buffer is null we return the actual length stored in db
+                return bytes;
+            }
+
+            if (bufferOffset + length > buffer.Length)
+            {
+                throw new ArgumentException("bufferOffset + length > buffer.Length");
+            }
+
+            var remainingBytes = bytes - dataOffset;
+            // cannot read more than remaining bytes
+            var bytesToRead = Math.Min(remainingBytes, length);
+
+            Marshal.Copy(new IntPtr(ptr.ToInt64() + dataOffset), buffer, bufferOffset, bytesToRead);
+
+            return bytesToRead;
+        }
+
         public static int sqlite3_column_count(Sqlite3StmtHandle stmt)
             => Sqlite3.column_count(stmt);
 
