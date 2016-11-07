@@ -33,7 +33,13 @@ namespace Microsoft.Data.Sqlite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             private static extern int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
 
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            private static extern int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
+
             public int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel)
+                => sqlite3_bind_blob(pStmt, i, zData, nData, xDel);
+
+            public int bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel)
                 => sqlite3_bind_blob(pStmt, i, zData, nData, xDel);
 
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

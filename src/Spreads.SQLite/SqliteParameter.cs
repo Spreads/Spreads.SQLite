@@ -12,7 +12,7 @@ using static Microsoft.Data.Sqlite.Interop.Constants;
 
 namespace Microsoft.Data.Sqlite
 {
-    // TODO: Truncate to specified size
+    // TODO: Truncate to specified size (VB: done for blobs)
     // TODO: Infer type and size from value
     /// <summary>
     /// Represents a parameter and its value in a <see cref="SqliteCommand" />.
@@ -25,6 +25,8 @@ namespace Microsoft.Data.Sqlite
         private object _value;
         private Action<Sqlite3StmtHandle, int> _bindAction;
         private bool _bindActionValid;
+        private int? _size;
+        private int? _offset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqliteParameter" /> class.
@@ -74,6 +76,20 @@ namespace Microsoft.Data.Sqlite
         public SqliteParameter(string name, SqliteType type, int size)
             : this(name, type)
         {
+            Size = size;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqliteParameter" /> class with BLOB data.
+        /// </summary>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="array">Array with data.</param>
+        /// <param name="offset">Array offset.</param>
+        /// <param name="size">Data length from offser.</param>
+        public SqliteParameter(string name, byte[] array, int offset, int size)
+            : this(name, SqliteType.Blob)
+        {
+            Offset = offset;
             Size = size;
         }
 
@@ -150,7 +166,25 @@ namespace Microsoft.Data.Sqlite
         /// Gets or sets the maximum size, in bytes, of the parameter.
         /// </summary>
         /// <value>The maximum size, in bytes, of the parameter.</value>
-        public override int Size { get; set; }
+        public override int Size {
+            get { return _size ?? 0; }
+            set
+            {
+                _size = value;
+            }
+        }
+
+        /// <summary>
+        /// Array offset for binary data.
+        /// </summary>
+        public int Offset
+        {
+            get { return _offset ?? 0; }
+            set
+            {
+                _offset = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the source column used for loading the value.
@@ -237,8 +271,7 @@ namespace Microsoft.Data.Sqlite
                 }
                 else if (type == typeof(byte[]))
                 {
-                    var value = (byte[])_value;
-                    _bindAction = (s, i) => BindBlob(s, i, value);
+                    _bindAction = BindBlob;
                 }
                 else if (type == typeof(char))
                 {
@@ -335,6 +368,24 @@ namespace Microsoft.Data.Sqlite
             _bindAction(stmt, index);
 
             return true;
+        }
+
+        private unsafe void BindBlob(Sqlite3StmtHandle stmt, int index)
+        {
+            var value = (byte[])_value;
+            var offset = _offset ?? 0;
+            var size = _size ?? value.Length;
+            if (offset == 0)
+            {
+                NativeMethods.sqlite3_bind_blob(stmt, index, value, size, SQLITE_TRANSIENT);
+            }
+            else
+            {
+                fixed (byte* ptr = &value[offset])
+                {
+                    NativeMethods.sqlite3_bind_blob(stmt, index, (IntPtr)ptr, size, SQLITE_TRANSIENT);
+                }   
+            }
         }
 
         private static void BindBlob(Sqlite3StmtHandle stmt, int index, byte[] value)

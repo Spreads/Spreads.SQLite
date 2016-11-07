@@ -76,6 +76,9 @@ namespace Microsoft.Data.Sqlite.Interop
         public static int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel)
             => Sqlite3.bind_blob(pStmt, i, zData, nData, xDel);
 
+        public static int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel)
+            => Sqlite3.bind_blob(pStmt, i, zData, nData, xDel);
+
         public static int sqlite3_bind_double(Sqlite3StmtHandle pStmt, int i, double rValue)
             => Sqlite3.bind_double(pStmt, i, rValue);
 
@@ -258,6 +261,7 @@ namespace Microsoft.Data.Sqlite.Interop
         private partial interface ISqlite3
         {
             int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
+            int bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
             int bind_double(Sqlite3StmtHandle pStmt, int i, double rValue);
             int bind_int64(Sqlite3StmtHandle pStmt, int i, long iValue);
             int bind_null(Sqlite3StmtHandle pStmt, int i);

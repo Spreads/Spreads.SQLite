@@ -15,6 +15,7 @@
 	},
 	"buildOptions": {
 		"optimize": true,
+		"allowUnsafe": true,
 		"warningsAsErrors": false,
 		"xmlDoc": true,
 		"embed": {
