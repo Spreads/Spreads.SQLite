@@ -57,7 +57,7 @@ namespace Microsoft.Data.Sqlite
                 (byte)1);
 
         [Fact]
-        public void GetBytes_not_supported()
+        public void GetBytes_is_supported()
         {
             using (var connection = new SqliteConnection("Data Source=:memory:"))
             {
@@ -69,7 +69,7 @@ namespace Microsoft.Data.Sqlite
                     Assert.True(hasData);
 
                     var buffer = new byte[2];
-                    Assert.Throws<NotSupportedException>(() => reader.GetBytes(0, 0, buffer, 0, buffer.Length));
+                    Assert.Equal(buffer.Length, reader.GetBytes(0, 0, buffer, 0, buffer.Length));
                 }
             }
         }

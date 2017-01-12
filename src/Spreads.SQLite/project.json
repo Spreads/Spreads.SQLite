@@ -1,5 +1,5 @@
 {
-	"version": "1.1.0-*",
+	"version": "1.7.0-*",
 	"name": "Spreads.SQLite",
 	"description": "Fork of Microsoft.Data.Sqlite adopted for Spreads.",
 	"packOptions": {
@@ -31,7 +31,7 @@
 		]
 	},
 	"dependencies": {
-		"Spreads.Core": "0.6.0-alpha*",
+		"Spreads.Core": "0.*",
 		"StyleCop.Analyzers": {
 			"version": "1.0.0",
 			"type": "build"

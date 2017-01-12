@@ -21,7 +21,7 @@ HEADERS = sqlite3.h
 CFLAGS += -I.
 
 DESTDIR = out/
-CPUx ?= 64
+CPUx ?= 32
 prefix	= w$(CPUx)
 
 NAME = spreads_sqlite3
