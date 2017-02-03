@@ -1,16 +1,19 @@
 {
 	"buildOptions": {
 		"warningsAsErrors": true,
-		"keyFile": "../../tools/Key.snk"
+		"keyFile": "../../tools/Key.snk",
+		"emitEntryPoint": true
 	},
-    "dependencies": {
-        "dotnet-test-xunit": "2.2.0-*",
-        "Microsoft.NETCore.Platforms": "1.0.1-*",
-        "Microsoft.AspNetCore.Testing": "1.1.0-*",
-        "Microsoft.Extensions.PlatformAbstractions": "1.1.0-*",
-        "xunit": "2.2.0-*",
-        "Spreads.SQLite": "1.*"
-    },
+	"dependencies": {
+		"dotnet-test-xunit": "2.2.0-*",
+		"Microsoft.NETCore.Platforms": "1.0.1-*",
+		"Microsoft.AspNetCore.Testing": "1.1.0-*",
+		"Microsoft.Extensions.PlatformAbstractions": "1.1.0-*",
+		"xunit": "2.2.0-*",
+		"Spreads.SQLite": "1.*",
+		"Spreads.SQLite.EF": "1.*",
+		"Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final"
+	},
   "testRunner": "xunit",
   "frameworks": {
     "netcoreapp1.0": {
