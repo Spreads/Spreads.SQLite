@@ -14,4 +14,6 @@ echo build: "%build%"
 
 dotnet pack ..\src\Spreads.SQLite -c DEBUG -o C:\tools\LocalNuget --version-suffix "%build%"
 
+dotnet pack ..\src\Spreads.SQLite.EF -c DEBUG -o C:\tools\LocalNuget --version-suffix "%build%"
+
 pause

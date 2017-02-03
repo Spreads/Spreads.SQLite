@@ -175,8 +175,9 @@ namespace Microsoft.Data.Sqlite
         }
 
         /// <summary>
-        /// Array offset for binary data.
+        /// Gets or sets array offset for binary data.
         /// </summary>
+        /// <value>Array offset for binary data.</value>
         public int Offset
         {
             get { return _offset ?? 0; }
