@@ -3,12 +3,12 @@
 
 using System;
 using Microsoft.Data.Sqlite.Interop;
-using Microsoft.AspNetCore.Testing.xunit;
+//using Microsoft.AspNetCore.Testing.xunit;
 
 namespace Microsoft.Data.Sqlite
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
-    internal class SqliteVersionConditionAttribute : Attribute, ITestCondition
+    internal class SqliteVersionConditionAttribute : Attribute //, ITestCondition
     {
         private Version _min;
         private Version _max;

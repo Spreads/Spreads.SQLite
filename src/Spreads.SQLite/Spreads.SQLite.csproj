@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Fork of Microsoft.Data.Sqlite adopted for Spreads.</Description>
+    <VersionPrefix>1.7.3</VersionPrefix>
+    <VersionSuffix>alpha1</VersionSuffix>
+    <TargetFrameworks>net451</TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Spreads.SQLite</AssemblyName>
+    <AssemblyOriginatorKeyFile>../../tools/SpreadsKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <PackageId>Spreads.SQLite</PackageId>
+    <PackageTags>SQLite;Data;ADO.NET;Spreads;full text search;FTS5</PackageTags>
+    <RepositoryUrl>https://github.com/Spreads/Spreads.SQLite</RepositoryUrl>
+    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\lib\out\w32\bin\spreads_sqlite3.dll.compressed">
+      <Link>win.x32.spreads_sqlite3.dll</Link>
+      <LogicalName>win.x32.spreads_sqlite3.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\lib\out\w64\bin\spreads_sqlite3.dll.compressed">
+      <Link>win.x64.spreads_sqlite3.dll</Link>
+      <LogicalName>win.x64.spreads_sqlite3.dll</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spreads.Core" Version="0.7.0-build1703100128" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+    <Reference Include="System.Data" />
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="System.AppContext" Version="4.3.0" />
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SqliteCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="SqliteConnection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+
+</Project>
