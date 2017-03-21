@@ -1,9 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net451</TargetFrameworks>
-    <RuntimeIdentifiers>win7-x64;win7-x86;osx.10.10-x64;osx.10.11-x64;ubuntu.14.04-x64;ubuntu.16.04-x64;centos.7-x64;rhel.7.2-x64;debian.8-x64;fedora.23-x64;opensuse.13.2-x64</RuntimeIdentifiers>
+    <TargetFrameworks>net451;netcoreapp1.1</TargetFrameworks>
+    <TargetFrameworks Condition="'$(OS)' != 'Windows_NT'">netcoreapp1.1</TargetFrameworks>
+    <!--<RuntimeIdentifiers>win7-x64;win7-x86;osx.10.10-x64;osx.10.11-x64;ubuntu.14.04-x64;ubuntu.16.04-x64;centos.7-x64;rhel.7.2-x64;debian.8-x64;fedora.23-x64;opensuse.13.2-x64</RuntimeIdentifiers>
     <RuntimeIdentifier Condition=" '$(TargetFramework)' == 'net451' ">win7-x86</RuntimeIdentifier>
+    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.3</RuntimeFrameworkVersion>
+    -->
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>Microsoft.Data.Sqlite.Tests</AssemblyName>
     <OutputType>Exe</OutputType>
@@ -12,23 +15,14 @@
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>Microsoft.Data.Sqlite.Tests</PackageId>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.3</RuntimeFrameworkVersion>
+    
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="EntityFramework\BasicTests.cs" />
-    <Compile Remove="Migrations\20170203055547_MyFirstMigration.cs" />
-    <Compile Remove="Migrations\20170203055547_MyFirstMigration.Designer.cs" />
-    <Compile Remove="Migrations\20170203062151_NewColumnToBlog.cs" />
-    <Compile Remove="Migrations\20170203062151_NewColumnToBlog.Designer.cs" />
-    <Compile Remove="Migrations\BloggingContextModelSnapshot.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Spreads.SQLite\Spreads.SQLite.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0-beta5-build1225" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="1.0.2" />
@@ -41,11 +35,12 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
-    <Folder Include="EntityFramework\" />
-    <Folder Include="Migrations\" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="xunit" Version="2.2.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

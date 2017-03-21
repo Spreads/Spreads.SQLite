@@ -12,6 +12,6 @@ REM echo fullstamp: "%fullstamp%"
 set "build=build%fullstamp%"
 echo build: "%build%"
 
-dotnet pack ..\src\Spreads.SQLite -c DEBUG -o C:\tools\LocalNuget --include-symbols --version-suffix "%build%"
+dotnet pack ..\src\Spreads.SQLite -c RELEASE -o C:\tools\LocalNuget --version-suffix "%build%"
 
 pause

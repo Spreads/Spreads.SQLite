@@ -6,7 +6,6 @@ using System.Data;
 using System.IO;
 //using Microsoft.AspNetCore.Testing.xunit;
 using Microsoft.Data.Sqlite.Utilities;
-using Microsoft.Extensions.PlatformAbstractions;
 using Xunit;
 
 using static Microsoft.Data.Sqlite.TestUtilities.Constants;
@@ -108,13 +107,6 @@ namespace Microsoft.Data.Sqlite
             Assert.Equal(Strings.OpenRequiresSetConnectionString, ex.Message);
         }
 
-        [Fact]
-        public void Open_adjusts_relative_path()
-        {
-            var connection = new SqliteConnection("Filename=./local.db");
-            connection.Open();
-            Assert.Equal(Path.Combine(PlatformServices.Default.Application.ApplicationBasePath, "local.db"), connection.DataSource);
-        }
 
         [Fact]
         public void Open_throws_when_error()

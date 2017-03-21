@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>Fork of Microsoft.Data.Sqlite adopted for Spreads.</Description>
-    <VersionPrefix>1.7.3</VersionPrefix>
-    <VersionSuffix>alpha1</VersionSuffix>
-    <TargetFrameworks>net451</TargetFrameworks>
+    <VersionPrefix>1.8.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+    <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Spreads.SQLite</AssemblyName>
@@ -22,20 +22,21 @@
 
   <ItemGroup>
     <EmbeddedResource Include="..\..\lib\out\w32\bin\spreads_sqlite3.dll.compressed">
-      <Link>win.x32.spreads_sqlite3.dll</Link>
+      <Link>native\win.x32.spreads_sqlite3.dll</Link>
       <LogicalName>win.x32.spreads_sqlite3.dll</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\lib\out\w64\bin\spreads_sqlite3.dll.compressed">
-      <Link>win.x64.spreads_sqlite3.dll</Link>
+      <Link>native\win.x64.spreads_sqlite3.dll</Link>
       <LogicalName>win.x64.spreads_sqlite3.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\lib\out\l64\bin\spreads_sqlite3.so.compressed">
+      <Link>native\lin.x64.spreads_sqlite3.so</Link>
+      <LogicalName>lin.x64.spreads_sqlite3.so</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="0.7.0-build1703100128" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.0">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Spreads.Core" Version="0.8.0-build1703210723" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
