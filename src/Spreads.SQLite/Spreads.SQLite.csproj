@@ -18,6 +18,7 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="0.8.0-build1703210723" />
+    <PackageReference Include="Spreads.Core" Version="0.8.0-build1706111915" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
@@ -59,9 +60,6 @@
 
   <ItemGroup>
     <Compile Update="SqliteCommand.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="SqliteConnection.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
