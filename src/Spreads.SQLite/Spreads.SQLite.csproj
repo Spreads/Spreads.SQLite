@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <Description>Fork of Microsoft.Data.Sqlite adopted for Spreads.</Description>
-    <VersionPrefix>1.8.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
-    <TargetFrameworks>net451;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Spreads.SQLite</AssemblyName>
@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="0.8.0-build1706111915" />
+    <PackageReference Include="Spreads.Core" Version="1.0.0-build1805190028R" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
@@ -59,7 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="SqliteCommand.cs">
+    <Compile Update="SqliteConnection.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

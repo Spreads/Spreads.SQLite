@@ -13,7 +13,7 @@ namespace Microsoft.Data.Sqlite.Interop
     {
         static NativeMethods() {
             // Ensure Bootstrapper is initialized and native libraries are loaded
-            Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
+            Spreads.Utils.Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
                 "spreads_sqlite3",
                 null,
                 () => { },
