@@ -3,6 +3,10 @@
 
 using System;
 using System.Data;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Data.Sqlite.Interop;
+using Microsoft.Data.Sqlite.TestUtilities;
 using Microsoft.Data.Sqlite.Utilities;
 using Xunit;
 
@@ -61,11 +65,6 @@ namespace Microsoft.Data.Sqlite
             Assert.NotNull(new SqliteCommand().CreateParameter());
         }
 
-        [Fact]
-        public void Prepare_is_noop()
-        {
-            new SqliteCommand().Prepare();
-        }
 
         [Fact]
         public void ExecuteReader_throws_when_no_connection()
@@ -542,5 +541,58 @@ namespace Microsoft.Data.Sqlite
                 Assert.Equal(Strings.InvalidCommandBehavior(behavior), ex.Message);
             }
         }
+
+        //[Theory]
+        //[InlineData(true)]
+        //[InlineData(false)]
+        //public Task ExecuteReader_retries_when_locked(bool extendedErrorCode)
+        //{
+        //    const string connectionString = "Data Source=locked;Mode=Memory;Cache=Shared";
+
+        //    var selectedSignal = new AutoResetEvent(initialState: false);
+
+        //    return Task.WhenAll(
+        //        Task.Run(
+        //            async () =>
+        //            {
+        //                using (var connection = new SqliteConnection(connectionString))
+        //                {
+        //                    connection.Open();
+        //                    if (extendedErrorCode)
+        //                    {
+        //                        NativeMethods.sqlite3_extended_result_codes(connection.Handle, 1);
+        //                    }
+
+        //                    connection.ExecuteNonQuery(
+        //                        "CREATE TABLE Data (Value); INSERT INTO Data VALUES (0);");
+
+        //                    using (connection.ExecuteReader("SELECT * FROM Data;"))
+        //                    {
+        //                        selectedSignal.Set();
+
+        //                        await Task.Delay(1000);
+        //                    }
+        //                }
+        //            }),
+        //        Task.Run(
+        //            () =>
+        //            {
+        //                using (var connection = new SqliteConnection(connectionString))
+        //                {
+        //                    connection.Open();
+        //                    if (extendedErrorCode)
+        //                    {
+        //                        raw.sqlite3_extended_result_codes(connection.DbHandle, 1);
+        //                    }
+
+        //                    selectedSignal.WaitOne();
+
+        //                    var command = connection.CreateCommand();
+        //                    command.CommandText = "DROP TABLE Data;";
+
+        //                    command.ExecuteNonQuery();
+        //                }
+        //            }));
+        //}
     }
 }

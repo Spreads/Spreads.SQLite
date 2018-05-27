@@ -22,9 +22,9 @@ namespace Microsoft.Data.Sqlite
     /// </summary>
     public class SqliteDataReader : DbDataReader
     {
-        private readonly SqliteConnection _connection;
+        private readonly SqliteCommand _command;
         private readonly bool _closeConnection;
-        private readonly Queue<Tuple<Sqlite3StmtHandle, bool>> _stmtQueue;
+        private readonly Queue<(Sqlite3StmtHandle, bool)> _stmtQueue;
         private Sqlite3StmtHandle _stmt;
         private bool _hasRows;
         private bool _stepped;
@@ -32,8 +32,8 @@ namespace Microsoft.Data.Sqlite
         private bool _closed;
 
         internal SqliteDataReader(
-            SqliteConnection connection,
-            Queue<Tuple<Sqlite3StmtHandle, bool>> stmtQueue,
+            SqliteCommand command,
+            Queue<(Sqlite3StmtHandle, bool)> stmtQueue,
             int recordsAffected,
             bool closeConnection)
         {
@@ -44,7 +44,7 @@ namespace Microsoft.Data.Sqlite
                 _hasRows = tuple.Item2;
             }
 
-            _connection = connection;
+            _command = command;
             _stmtQueue = stmtQueue;
             RecordsAffected = recordsAffected;
             _closeConnection = closeConnection;
@@ -144,7 +144,7 @@ namespace Microsoft.Data.Sqlite
             }
 
             var rc = NativeMethods.sqlite3_step(_stmt);
-            MarshalEx.ThrowExceptionForRC(rc, _connection.DbHandle);
+            MarshalEx.ThrowExceptionForRC(rc, _command.Connection.DbHandle);
 
             _done = rc == SQLITE_DONE;
 
@@ -203,22 +203,24 @@ namespace Microsoft.Data.Sqlite
                 return;
             }
 
+            _command.DataReader = null;
+
             if (_stmt != null)
             {
-                _stmt.Dispose();
+                NativeMethods.sqlite3_reset(_stmt);
                 _stmt = null;
             }
 
             while (_stmtQueue.Count != 0)
             {
-                _stmtQueue.Dequeue().Item1.Dispose();
+                NativeMethods.sqlite3_reset(_stmtQueue.Dequeue().Item1);
             }
 
             _closed = true;
 
             if (_closeConnection)
             {
-                _connection.Close();
+                _command.Connection.Close();
             }
         }
 

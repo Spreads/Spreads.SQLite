@@ -8,7 +8,7 @@ using static Microsoft.Data.Sqlite.Interop.Constants;
 
 namespace Microsoft.Data.Sqlite.Interop
 {
-    internal class Sqlite3StmtHandle : SafeHandle
+    public class Sqlite3StmtHandle : SafeHandle
     {
         private Sqlite3StmtHandle()
             : base(IntPtr.Zero, ownsHandle: true)

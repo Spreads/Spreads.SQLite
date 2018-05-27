@@ -80,6 +80,9 @@ namespace Microsoft.Data.Sqlite
             }
         }
 
+        private readonly ICollection<Sqlite3StmtHandle> _preparedStatements = new List<Sqlite3StmtHandle>();
+        private SqliteConnection _connection;
+
         /// <summary>
         /// Gets or sets the SQL to execute against the database.
         /// </summary>
@@ -90,7 +93,25 @@ namespace Microsoft.Data.Sqlite
         /// Gets or sets the connection used by the command.
         /// </summary>
         /// <value>The connection used by the command.</value>
-        public new virtual SqliteConnection Connection { get; set; }
+        public new virtual SqliteConnection Connection
+        {
+            get => _connection;
+            set {
+                if (DataReader != null)
+                {
+                    throw new InvalidOperationException("SetRequiresNoOpenReader(nameof(Connection))");
+                }
+
+                if (value != _connection)
+                {
+                    DisposePreparedStatements();
+
+                    _connection?.RemoveCommand(this);
+                    _connection = value;
+                    value?.AddCommand(this);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the connection used by the command. Must be a <see cref="SqliteConnection" />.
@@ -154,6 +175,26 @@ namespace Microsoft.Data.Sqlite
         public override UpdateRowSource UpdatedRowSource { get; set; }
 
         /// <summary>
+        ///     Gets or sets the data reader currently being used by the command, or null if none.
+        /// </summary>
+        /// <value>The data reader currently being used by the command.</value>
+        protected internal virtual SqliteDataReader DataReader { get; set; }
+
+
+        /// <summary>
+        ///     Releases any resources used by the connection and closes it.
+        /// </summary>
+        /// <param name="disposing">
+        ///     true to release managed and unmanaged resources; false to release only unmanaged resources.
+        /// </param>
+        protected override void Dispose(bool disposing)
+        {
+            DisposePreparedStatements(disposing);
+
+            base.Dispose(disposing);
+        }
+
+        /// <summary>
         /// Creates a new parameter.
         /// </summary>
         /// <returns>The new parameter.</returns>
@@ -168,10 +209,42 @@ namespace Microsoft.Data.Sqlite
             => CreateParameter();
 
         /// <summary>
-        /// Creates a prepared version of the command on the database. This has no effect.
+        ///     Creates a prepared version of the command on the database. This has no effect.
         /// </summary>
         public override void Prepare()
         {
+            if (Connection?.State != ConnectionState.Open)
+            {
+                throw new InvalidOperationException("CallRequiresOpenConnection(nameof(Prepare))");
+            }
+
+            if (string.IsNullOrEmpty(CommandText))
+            {
+                throw new InvalidOperationException("CallRequiresSetCommandText(nameof(Prepare))");
+            }
+
+            if (_preparedStatements.Count != 0)
+            {
+                return;
+            }
+
+            var timer = Stopwatch.StartNew();
+
+            try
+            {
+                using (var enumerator = PrepareAndEnumerateStatements(timer).GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                    }
+                }
+            }
+            catch
+            {
+                DisposePreparedStatements();
+
+                throw;
+            }
         }
 
         /// <summary>
@@ -183,33 +256,39 @@ namespace Microsoft.Data.Sqlite
             => ExecuteReader(CommandBehavior.Default);
 
         /// <summary>
-        /// Executes the <see cref="CommandText" /> against the database and returns a data reader.
+        ///     Executes the <see cref="CommandText" /> against the database and returns a data reader.
         /// </summary>
         /// <param name="behavior">
-        /// A description of the results of the query and its effect on the database.
-        /// <para>Only <see cref="CommandBehavior.Default" />, <see cref="CommandBehavior.SequentialAccess" />,
-        /// <see cref="CommandBehavior.SingleResult" />, <see cref="CommandBehavior.SingleRow" />, and
-        /// <see cref="CommandBehavior.CloseConnection" /> are supported.</para>
+        ///     A description of the results of the query and its effect on the database.
+        ///     <para>
+        ///         Only <see cref="CommandBehavior.Default" />, <see cref="CommandBehavior.SequentialAccess" />,
+        ///         <see cref="CommandBehavior.SingleResult" />, <see cref="CommandBehavior.SingleRow" />, and
+        ///         <see cref="CommandBehavior.CloseConnection" /> are supported.
+        ///     </para>
         /// </param>
         /// <returns>The data reader.</returns>
         /// <exception cref="SqliteException">A SQLite error occurs during execution.</exception>
         public new virtual SqliteDataReader ExecuteReader(CommandBehavior behavior)
         {
             if ((behavior & ~(CommandBehavior.Default | CommandBehavior.SequentialAccess | CommandBehavior.SingleResult
-                | CommandBehavior.SingleRow | CommandBehavior.CloseConnection)) != 0)
+                              | CommandBehavior.SingleRow | CommandBehavior.CloseConnection)) != 0)
             {
                 throw new ArgumentException(Strings.InvalidCommandBehavior(behavior));
             }
 
-            if (Connection == null
-                || Connection.State != ConnectionState.Open)
+            if (DataReader != null)
             {
-                throw new InvalidOperationException(Strings.CallRequiresOpenConnection("ExecuteReader"));
+                throw new InvalidOperationException("DataReaderOpen");
+            }
+
+            if (Connection?.State != ConnectionState.Open)
+            {
+                throw new InvalidOperationException(Strings.CallRequiresOpenConnection(nameof(ExecuteReader)));
             }
 
             if (string.IsNullOrEmpty(CommandText))
             {
-                throw new InvalidOperationException(Strings.CallRequiresSetCommandText("ExecuteReader"));
+                throw new InvalidOperationException(Strings.CallRequiresSetCommandText(nameof(ExecuteReader)));
             }
 
             if (Transaction != Connection.Transaction)
@@ -220,67 +299,45 @@ namespace Microsoft.Data.Sqlite
                         : Strings.TransactionConnectionMismatch);
             }
 
-            /*
-              This is not a guarantee. SQLITE_BUSY can still be thrown before the command timeout.
-              This sets a timeout handler but this can be cleared by concurrent commands.
-            */
-            NativeMethods.sqlite3_busy_timeout(Connection.DbHandle, CommandTimeout * 1000);
-
             var hasChanges = false;
             var changes = 0;
-            var stmts = new Queue<Tuple<Sqlite3StmtHandle, bool>>();
-            var tail = CommandText;
+            int rc;
+            var stmts = new Queue<(Sqlite3StmtHandle, bool)>();
+            var unprepared = _preparedStatements.Count == 0;
+            var timer = Stopwatch.StartNew();
 
-            do
+            try
             {
-                Sqlite3StmtHandle stmt;
-                var rc = NativeMethods.sqlite3_prepare_v2(
-                        Connection.DbHandle,
-                        tail,
-                        out stmt,
-                        out tail);
-                MarshalEx.ThrowExceptionForRC(rc, Connection.DbHandle);
-
-                // Statement was empty, white space, or a comment
-                if (stmt.IsInvalid)
+                foreach (var stmt in unprepared
+                    ? PrepareAndEnumerateStatements(timer)
+                    : _preparedStatements)
                 {
-                    if (!string.IsNullOrEmpty(tail))
+                    var boundParams = 0;
+
+                    if (_parameters.IsValueCreated)
                     {
-                        continue;
+                        boundParams = _parameters.Value.Bind(stmt);
                     }
 
-                    break;
-                }
-
-                var boundParams = 0;
-
-                if (_parameters.IsValueCreated)
-                {
-                    boundParams = _parameters.Value.Bind(stmt);
-                }
-
-                var expectedParams = NativeMethods.sqlite3_bind_parameter_count(stmt);
-                if (expectedParams != boundParams)
-                {
-                    var unboundParams = new List<string>();
-                    for (var i = 1; i <= expectedParams; i++)
+                    var expectedParams = NativeMethods.sqlite3_bind_parameter_count(stmt);
+                    if (expectedParams != boundParams)
                     {
-                        var name = NativeMethods.sqlite3_bind_parameter_name(stmt, i);
-
-                        if (_parameters.IsValueCreated
-                            ||
-                            !_parameters.Value.Cast<SqliteParameter>().Any(p => p.ParameterName == name))
+                        var unboundParams = new List<string>();
+                        for (var i = 1; i <= expectedParams; i++)
                         {
-                            unboundParams.Add(name);
-                        }
-                    }
-                    throw new InvalidOperationException(Strings.MissingParameters(string.Join(", ", unboundParams)));
-                }
+                            var name = NativeMethods.sqlite3_bind_parameter_name(stmt, i);
 
-                try
-                {
-                    var timer = Stopwatch.StartNew();
-                    while (SQLITE_LOCKED == (rc = NativeMethods.sqlite3_step(stmt)) || rc == SQLITE_BUSY)
+                            if (_parameters.IsValueCreated
+                                || !_parameters.Value.Cast<SqliteParameter>().Any(p => p.ParameterName == name))
+                            {
+                                unboundParams.Add(name);
+                            }
+                        }
+
+                        throw new InvalidOperationException(Strings.MissingParameters(string.Join(", ", unboundParams)));
+                    }
+
+                    while (IsBusy(rc = NativeMethods.sqlite3_step(stmt)))
                     {
                         if (timer.ElapsedMilliseconds >= CommandTimeout * 1000)
                         {
@@ -288,34 +345,38 @@ namespace Microsoft.Data.Sqlite
                         }
 
                         NativeMethods.sqlite3_reset(stmt);
+
+                        // TODO: Consider having an async path that uses Task.Delay()
+                        Thread.Sleep(150);
                     }
 
                     MarshalEx.ThrowExceptionForRC(rc, Connection.DbHandle);
-                }
-                catch
-                {
-                    stmt.Dispose();
-                    throw;
-                }
 
-                // NB: This is only a heuristic to separate SELECT statements from INSERT/UPDATE/DELETE statements. It
-                //     will result in unexpected corner cases, but it's the best we can do without re-parsing SQL
-                if (NativeMethods.sqlite3_stmt_readonly(stmt) != 0)
-                {
-                    stmts.Enqueue(Tuple.Create(stmt, rc != SQLITE_DONE));
-                }
-                else
-                {
-                    hasChanges = true;
-                    changes += NativeMethods.sqlite3_changes(Connection.DbHandle);
-                    stmt.Dispose();
+                    if (rc == Constants.SQLITE_ROW
+                        // NB: This is only a heuristic to separate SELECT statements from INSERT/UPDATE/DELETE statements.
+                        //     It will result in false positives, but it's the best we can do without re-parsing SQL
+                        || NativeMethods.sqlite3_stmt_readonly(stmt) != 0)
+                    {
+                        stmts.Enqueue((stmt, rc != Constants.SQLITE_DONE));
+                    }
+                    else
+                    {
+                        NativeMethods.sqlite3_reset(stmt);
+                        hasChanges = true;
+                        changes += NativeMethods.sqlite3_changes(Connection.DbHandle);
+                    }
                 }
             }
-            while (!string.IsNullOrEmpty(tail));
+            catch when (unprepared)
+            {
+                DisposePreparedStatements();
+
+                throw;
+            }
 
             var closeConnection = (behavior & CommandBehavior.CloseConnection) != 0;
 
-            return new SqliteDataReader(Connection, stmts, hasChanges ? changes : -1, closeConnection);
+            return DataReader = new SqliteDataReader(this, stmts, hasChanges ? changes : -1, closeConnection);
         }
 
         /// <summary>
@@ -445,5 +506,69 @@ namespace Microsoft.Data.Sqlite
         public override void Cancel()
         {
         }
+
+        private IEnumerable<Sqlite3StmtHandle> PrepareAndEnumerateStatements(Stopwatch timer)
+        {
+            int rc;
+            Sqlite3StmtHandle stmt;
+            var tail = CommandText;
+            do
+            {
+                string nextTail;
+                while (IsBusy(rc = NativeMethods.sqlite3_prepare_v2(Connection.DbHandle, tail, out stmt, out nextTail)))
+                {
+                    if (timer.ElapsedMilliseconds >= CommandTimeout * 1000)
+                    {
+                        break;
+                    }
+
+                    Thread.Sleep(150);
+                }
+                tail = nextTail;
+
+                MarshalEx.ThrowExceptionForRC(rc, Connection.DbHandle);
+
+                // Statement was empty, white space, or a comment
+                if (stmt.IsInvalid)
+                {
+                    if (!string.IsNullOrEmpty(tail))
+                    {
+                        continue;
+                    }
+
+                    break;
+                }
+
+                _preparedStatements.Add(stmt);
+
+                yield return stmt;
+            }
+            while (!string.IsNullOrEmpty(tail));
+        }
+
+        private void DisposePreparedStatements(bool disposing = true)
+        {
+            if (disposing
+                && DataReader != null)
+            {
+                DataReader.Dispose();
+                DataReader = null;
+            }
+
+            if (_preparedStatements != null)
+            {
+                foreach (var stmt in _preparedStatements)
+                {
+                    stmt.Dispose();
+                }
+
+                _preparedStatements.Clear();
+            }
+        }
+
+        private static bool IsBusy(int rc)
+            => rc == Constants.SQLITE_LOCKED
+               || rc == Constants.SQLITE_BUSY
+               || rc == Constants.SQLITE_LOCKED_SHAREDCACHE;
     }
 }

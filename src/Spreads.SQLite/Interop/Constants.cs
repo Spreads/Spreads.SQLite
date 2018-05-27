@@ -43,6 +43,9 @@ namespace Microsoft.Data.Sqlite.Interop
         /// A table in the database is locked	
         /// </summary>
         public const int SQLITE_LOCKED = 6;
+
+
+        public const int SQLITE_LOCKED_SHAREDCACHE = 262;
         				
         /// <summary>
         /// A malloc() failed	
@@ -181,5 +184,6 @@ namespace Microsoft.Data.Sqlite.Interop
         public const int SQLITE_OPEN_PRIVATECACHE = 0x00040000;
 
         public static readonly IntPtr SQLITE_TRANSIENT = new IntPtr(-1);
+        public static readonly IntPtr SQLITE_STATIC = new IntPtr(0);
     }
 }

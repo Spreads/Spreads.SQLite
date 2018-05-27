@@ -9,7 +9,7 @@ using Microsoft.Data.Sqlite.Utilities;
 
 namespace Microsoft.Data.Sqlite.Interop
 {
-    internal static partial class NativeMethods
+    public static partial class NativeMethods
     {
         static NativeMethods() {
             // Ensure Bootstrapper is initialized and native libraries are loaded
@@ -285,7 +285,7 @@ namespace Microsoft.Data.Sqlite.Interop
         public static int sqlite3_stmt_readonly(Sqlite3StmtHandle pStmt)
             => Sqlite3.stmt_readonly(pStmt);
 
-        private partial interface ISqlite3
+        internal partial interface ISqlite3
         {
             int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
             int bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
