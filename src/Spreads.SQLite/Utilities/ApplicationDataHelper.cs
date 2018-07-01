@@ -23,16 +23,17 @@ namespace Microsoft.Data.Sqlite.Utilities
 
         private static object LoadAppData()
         {
-            try
-            {
-                return Type.GetType("Windows.Storage.ApplicationData, Windows, ContentType=WindowsRuntime")
-                    ?.GetRuntimeProperty("Current").GetValue(null);
-            }
-            catch
-            {
-                // Ignore "The process has no package identity."
-                return null;
-            }
+            return null;
+            //try
+            //{
+            //    return Type.GetType("Windows.Storage.ApplicationData, Windows, ContentType=WindowsRuntime")
+            //        ?.GetRuntimeProperty("Current").GetValue(null);
+            //}
+            //catch
+            //{
+            //    // Ignore "The process has no package identity."
+            //    return null;
+            //}
         }
 
         private static string GetFolderPath(string propertyName)
