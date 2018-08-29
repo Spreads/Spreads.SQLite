@@ -15,4 +15,6 @@ echo build: "%build%"
 dotnet restore ..\src\Spreads.SQLite
 dotnet pack ..\src\Spreads.SQLite -c RELEASE -o C:\tools\LocalNuget --version-suffix "%build%"
 
+@for %%f in (C:\tools\LocalNuget\Spreads.SQLite*"%build%".nupkg) do @C:\tools\nuget\NuGet.exe push %%f -source https://www.nuget.org/api/v2/package
+
 pause
