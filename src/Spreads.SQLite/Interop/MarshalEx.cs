@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -53,6 +54,7 @@ namespace Microsoft.Data.Sqlite.Interop
             return StringToHGlobalUTF8(s, out temp);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowExceptionForRC(int rc, Sqlite3Handle db)
         {
             if (rc == SQLITE_OK
@@ -62,6 +64,12 @@ namespace Microsoft.Data.Sqlite.Interop
                 return;
             }
 
+            DoThrowExceptionForRC(rc, db);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void DoThrowExceptionForRC(int rc, Sqlite3Handle db)
+        {
             var message = db == null || db.IsInvalid
                 ? VersionedMethods.GetErrorString(rc)
                 : NativeMethods.sqlite3_errmsg(db);

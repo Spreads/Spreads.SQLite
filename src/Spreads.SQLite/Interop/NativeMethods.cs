@@ -280,6 +280,25 @@ namespace Microsoft.Data.Sqlite.Interop
             }
         }
 
+        // always uses 1 for prepFlags in v3. for other cases use v2
+        public static int sqlite3_prepare_v3(Sqlite3Handle db, string zSql, out Sqlite3StmtHandle ppStmt, out string pzTail)
+        {
+            int nByte;
+            var zSqlPtr = MarshalEx.StringToHGlobalUTF8(zSql, out nByte);
+            try
+            {
+                IntPtr pzTailPtr;
+                var rc = Sqlite3_spreads_sqlite3.sqlite3_prepare_v2(db, zSqlPtr, nByte, out ppStmt, out pzTailPtr); // TODO v3 with 1
+                pzTail = MarshalEx.PtrToStringUTF8(pzTailPtr);
+
+                return rc;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(zSqlPtr);
+            }
+        }
+
         public static int sqlite3_reset(Sqlite3StmtHandle stmt)
             => Sqlite3.reset(stmt);
 
@@ -289,7 +308,7 @@ namespace Microsoft.Data.Sqlite.Interop
         public static int sqlite3_stmt_readonly(Sqlite3StmtHandle pStmt)
             => Sqlite3.stmt_readonly(pStmt);
 
-        internal partial interface ISqlite3
+        internal interface ISqlite3
         {
             int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
             int bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
@@ -321,6 +340,7 @@ namespace Microsoft.Data.Sqlite.Interop
             IntPtr libversion();
             int open_v2(IntPtr filename, out Sqlite3Handle ppDb, int flags, IntPtr vfs);
             int prepare_v2(Sqlite3Handle db, IntPtr zSql, int nByte, out Sqlite3StmtHandle ppStmt, out IntPtr pzTail);
+            int prepare_v3(Sqlite3Handle db, IntPtr zSql, int nByte, uint prepFlags, out Sqlite3StmtHandle ppStmt, out IntPtr pzTail);
             int reset(Sqlite3StmtHandle stmt);
             int step(Sqlite3StmtHandle stmt);
             int stmt_readonly(Sqlite3StmtHandle pStmt);

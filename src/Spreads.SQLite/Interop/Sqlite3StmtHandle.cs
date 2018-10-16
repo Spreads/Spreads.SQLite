@@ -10,7 +10,7 @@ namespace Microsoft.Data.Sqlite.Interop
 {
     public class Sqlite3StmtHandle : SafeHandle
     {
-        private Sqlite3StmtHandle()
+        protected Sqlite3StmtHandle()
             : base(IntPtr.Zero, ownsHandle: true)
         {
         }

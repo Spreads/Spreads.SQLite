@@ -273,6 +273,19 @@ namespace Microsoft.Data.Sqlite.Interop
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_prepare_v3(
+                Sqlite3Handle db,
+                IntPtr zSql,
+                int nByte,
+                uint prepFlags,
+                out Sqlite3StmtHandle ppStmt,
+                out IntPtr pzTail);
+
+            public int prepare_v3(Sqlite3Handle db, IntPtr zSql, int nByte, uint prepFlags, out Sqlite3StmtHandle ppStmt, out IntPtr pzTail)
+                => sqlite3_prepare_v3(db, zSql, nByte, prepFlags, out ppStmt, out pzTail);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_reset(Sqlite3StmtHandle stmt);
 
             public int reset(Sqlite3StmtHandle stmt)
