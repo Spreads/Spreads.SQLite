@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
+using Spreads.Buffers;
 using static Microsoft.Data.Sqlite.Interop.Constants;
 using static Microsoft.Data.Sqlite.Interop.NativeMethods.Sqlite3_spreads_sqlite3;
 
@@ -42,6 +44,12 @@ namespace Spreads.SQLite.Fast
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int BindBlob(int i, DirectBuffer buffer)
+        {
+            return sqlite3_bind_blob(_pStmt, i, buffer.IntPtr, buffer.Length, SQLITE_STATIC);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int BindDouble(int i, double value)
         {
             return sqlite3_bind_double(_pStmt, i, value);
@@ -57,6 +65,12 @@ namespace Spreads.SQLite.Fast
         public int BindNull(int i)
         {
             return sqlite3_bind_null(_pStmt, i);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int ClearBindings()
+        {
+            return sqlite3_clear_bindings(_pStmt);
         }
 
         // TODO Text & other types
@@ -111,9 +125,15 @@ namespace Spreads.SQLite.Fast
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Changes(int i)
+        public int Changes()
         {
             return sqlite3_changes(_dbHandle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public long LastRowId()
+        {
+            return sqlite3_last_insert_rowid(_dbHandle);
         }
 
         // TODO Text & other types

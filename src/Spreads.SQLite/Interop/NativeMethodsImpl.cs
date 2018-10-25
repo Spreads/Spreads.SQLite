@@ -34,6 +34,10 @@ namespace Microsoft.Data.Sqlite.Interop
             // NB SuppressUnmanagedCodeSecurity is noop on .NET Core
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_clear_bindings(Sqlite3StmtHandle pStmt);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
 
             [SuppressUnmanagedCodeSecurity]
@@ -132,6 +136,10 @@ namespace Microsoft.Data.Sqlite.Interop
 
             public int changes(Sqlite3Handle db)
                 => sqlite3_changes(db);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern long sqlite3_last_insert_rowid(Sqlite3Handle db);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]

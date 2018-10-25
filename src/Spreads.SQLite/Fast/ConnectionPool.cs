@@ -3,33 +3,32 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 using Microsoft.Data.Sqlite;
-using Spreads.SQLite.Utilities;
+using Microsoft.Data.Sqlite.Utilities;
+using Spreads.Collections.Concurrent;
 using System;
 using System.Data;
-using Microsoft.Data.Sqlite.Utilities;
 
 namespace Spreads.SQLite.Fast
 {
     public class ConnectionPool : IDisposable
     {
         private ConnectionState _state;
-        private readonly string _connectionString;
-        private LockedObjectPool<SqliteConnection> _pool = new LockedObjectPool<SqliteConnection>(Environment.ProcessorCount * 2);
+        private readonly LockedObjectPool<SqliteConnection> _pool;
 
         public ConnectionPool(string connectionString)
         {
-            _connectionString = connectionString;
-            _pool.Rent();
-            // for exception on construction if any
-            _pool.Return(OpenConnection());
+            ConnectionString = connectionString;
+            _pool = new LockedObjectPool<SqliteConnection>(Environment.ProcessorCount * 2, OpenConnection);
+            // construct first object for exception on construction if any
+            _pool.Return(_pool.Rent());
             _state = ConnectionState.Open;
         }
 
-        public string ConnectionString => _connectionString;
+        public string ConnectionString { get; }
 
         private SqliteConnection OpenConnection()
         {
-            var connection = new SqliteConnection(_connectionString);
+            var connection = new SqliteConnection(ConnectionString);
             connection.Open();
             InitConnection(connection);
             return connection;
@@ -68,7 +67,7 @@ namespace Spreads.SQLite.Fast
                 {
                     ThrowHelper.ThrowInvalidOperationException("_state == ConnectionState.Closed");
                 }
-                return _pool.Rent() ?? OpenConnection();
+                return _pool.Rent();
             }
         }
 
@@ -76,12 +75,7 @@ namespace Spreads.SQLite.Fast
         {
             lock (_pool)
             {
-                SqliteConnection connection;
-                while ((connection = _pool.Rent()) != null)
-                {
-                    connection.Dispose();
-                }
-
+                _pool.Dispose();
                 _state = ConnectionState.Closed;
             }
         }
