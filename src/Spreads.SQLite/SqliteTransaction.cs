@@ -4,9 +4,10 @@
 using System;
 using System.Data;
 using System.Data.Common;
-using Microsoft.Data.Sqlite.Utilities;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Represents a transaction made against a SQLite database.

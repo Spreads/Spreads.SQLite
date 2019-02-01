@@ -5,10 +5,9 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using Spreads.SQLite.Properties;
 
-using static Microsoft.Data.Sqlite.Interop.Constants;
-
-namespace Microsoft.Data.Sqlite.Interop
+namespace Spreads.SQLite.Interop
 {
     internal static class MarshalEx
     {
@@ -57,9 +56,9 @@ namespace Microsoft.Data.Sqlite.Interop
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ThrowExceptionForRC(int rc, Sqlite3Handle db)
         {
-            if (rc == SQLITE_OK
-                || rc == SQLITE_ROW
-                || rc == SQLITE_DONE)
+            if (rc == Constants.SQLITE_OK
+                || rc == Constants.SQLITE_ROW
+                || rc == Constants.SQLITE_DONE)
             {
                 return;
             }

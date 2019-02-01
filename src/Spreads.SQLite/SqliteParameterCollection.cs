@@ -6,9 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
-using Microsoft.Data.Sqlite.Interop;
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Represents a collection of SQLite parameters.

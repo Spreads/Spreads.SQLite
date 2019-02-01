@@ -3,7 +3,7 @@
 
 using System.Data.Common;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Represents a SQLite error.

@@ -3,14 +3,13 @@
 
 using System;
 using System.Data;
-using System.IO;
-//using Microsoft.AspNetCore.Testing.xunit;
-using Microsoft.Data.Sqlite.Utilities;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Tests.TestUtilities;
+using Spreads.SQLite.Utilities;
 using Xunit;
+//using Microsoft.AspNetCore.Testing.xunit;
 
-using static Microsoft.Data.Sqlite.TestUtilities.Constants;
-
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteConnectionTest
     {
@@ -115,7 +114,7 @@ namespace Microsoft.Data.Sqlite
 
             var ex = Assert.Throws<SqliteException>(() => connection.Open());
 
-            Assert.Equal(SQLITE_ERROR, ex.SqliteErrorCode);
+            Assert.Equal(Constants.SQLITE_ERROR, ex.SqliteErrorCode);
         }
 
         [Fact]
@@ -168,7 +167,7 @@ namespace Microsoft.Data.Sqlite
                 var ex = Assert.Throws<SqliteException>(
                     () => connection.ExecuteNonQuery("INSERT INTO Idomic VALUES ('arimfexendrapuse');"));
 
-                Assert.Equal(SQLITE_READONLY, ex.SqliteErrorCode);
+                Assert.Equal(Constants.SQLITE_READONLY, ex.SqliteErrorCode);
             }
         }
 
@@ -179,7 +178,7 @@ namespace Microsoft.Data.Sqlite
             {
                 var ex = Assert.Throws<SqliteException>(() => connection.Open());
 
-                Assert.Equal(SQLITE_CANTOPEN, ex.SqliteErrorCode);
+                Assert.Equal(Constants.SQLITE_CANTOPEN, ex.SqliteErrorCode);
             }
         }
 
@@ -213,7 +212,7 @@ namespace Microsoft.Data.Sqlite
             {
                 var ex = Assert.Throws<SqliteException>(() => connection.Open());
 
-                Assert.Equal(SQLITE_CANTOPEN, ex.SqliteErrorCode);
+                Assert.Equal(Constants.SQLITE_CANTOPEN, ex.SqliteErrorCode);
             }
         }
 

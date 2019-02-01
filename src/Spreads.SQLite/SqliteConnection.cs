@@ -7,15 +7,13 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.Data.Sqlite.Interop;
-
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
 #if !NET451
-using Microsoft.Data.Sqlite.Utilities;
 #endif
 
-using static Microsoft.Data.Sqlite.Interop.Constants;
-
-namespace Microsoft.Data.Sqlite {
+namespace Spreads.SQLite {
     /// <summary>
     /// Represents a connection to a SQLite database.
     /// </summary>
@@ -155,24 +153,24 @@ namespace Microsoft.Data.Sqlite {
 
             if (filename.StartsWith("file:", StringComparison.OrdinalIgnoreCase))
             {
-                flags |= SQLITE_OPEN_URI;
+                flags |= Constants.SQLITE_OPEN_URI;
             }
 
             switch (ConnectionStringBuilder.Mode)
             {
                 case SqliteOpenMode.ReadOnly:
-                    flags |= SQLITE_OPEN_READONLY;
+                    flags |= Constants.SQLITE_OPEN_READONLY;
                     break;
 
                 case SqliteOpenMode.ReadWrite:
-                    flags |= SQLITE_OPEN_READWRITE;
+                    flags |= Constants.SQLITE_OPEN_READWRITE;
                     break;
 
                 case SqliteOpenMode.Memory:
-                    flags |= SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_MEMORY;
-                    if ((flags & SQLITE_OPEN_URI) == 0)
+                    flags |= Constants.SQLITE_OPEN_READWRITE | Constants.SQLITE_OPEN_CREATE | Constants.SQLITE_OPEN_MEMORY;
+                    if ((flags & Constants.SQLITE_OPEN_URI) == 0)
                     {
-                        flags |= SQLITE_OPEN_URI;
+                        flags |= Constants.SQLITE_OPEN_URI;
                         filename = "file:" + filename;
                     }
                     break;
@@ -181,18 +179,18 @@ namespace Microsoft.Data.Sqlite {
                     Debug.Assert(
                         ConnectionStringBuilder.Mode == SqliteOpenMode.ReadWriteCreate,
                         "ConnectionStringBuilder.Mode is not ReadWriteCreate");
-                    flags |= SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+                    flags |= Constants.SQLITE_OPEN_READWRITE | Constants.SQLITE_OPEN_CREATE;
                     break;
             }
 
             switch (ConnectionStringBuilder.Cache)
             {
                 case SqliteCacheMode.Shared:
-                    flags |= SQLITE_OPEN_SHAREDCACHE;
+                    flags |= Constants.SQLITE_OPEN_SHAREDCACHE;
                     break;
 
                 case SqliteCacheMode.Private:
-                    flags |= SQLITE_OPEN_PRIVATECACHE;
+                    flags |= Constants.SQLITE_OPEN_PRIVATECACHE;
                     break;
 
                 default:
@@ -202,7 +200,7 @@ namespace Microsoft.Data.Sqlite {
                     break;
             }
 
-            if ((flags & SQLITE_OPEN_URI) == 0
+            if ((flags & Constants.SQLITE_OPEN_URI) == 0
                 && !filename.Equals(":memory:", StringComparison.OrdinalIgnoreCase)
                 && !Path.IsPathRooted(filename))
             {

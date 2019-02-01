@@ -9,10 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Data.Sqlite.Interop;
-using static Microsoft.Data.Sqlite.Interop.Constants;
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Represents a SQL statement to be executed against a SQLite database.

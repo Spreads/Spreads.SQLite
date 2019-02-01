@@ -2,10 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using Microsoft.Data.Sqlite.Interop;
+using Spreads.SQLite.Interop;
+
 //using Microsoft.AspNetCore.Testing.xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests.TestUtilities
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = true)]
     internal class SqliteVersionConditionAttribute : Attribute //, ITestCondition

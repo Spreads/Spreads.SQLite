@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28516.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9396F8F4-299D-427C-B829-EF9A931DAA3C}"
 EndProject
@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{ECB63F46-D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spreads.SQLite", "src\Spreads.SQLite\Spreads.SQLite.csproj", "{DD66BDB6-B329-4EDA-A61E-4E7FCF61A37D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Data.Sqlite.Tests", "test\Microsoft.Data.Sqlite.Tests\Microsoft.Data.Sqlite.Tests.csproj", "{64A3DFCF-4B9A-4C58-8509-CCCEFF359292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spreads.SQLite.Tests", "test\Microsoft.Data.Sqlite.Tests\Spreads.SQLite.Tests.csproj", "{64A3DFCF-4B9A-4C58-8509-CCCEFF359292}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,5 +68,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DD66BDB6-B329-4EDA-A61E-4E7FCF61A37D} = {9396F8F4-299D-427C-B829-EF9A931DAA3C}
 		{64A3DFCF-4B9A-4C58-8509-CCCEFF359292} = {ECB63F46-D037-4EEA-A4CD-BF18B5B9D2C4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BBADBB6-B520-4CD4-9D8D-0DA17732FE24}
 	EndGlobalSection
 EndGlobal

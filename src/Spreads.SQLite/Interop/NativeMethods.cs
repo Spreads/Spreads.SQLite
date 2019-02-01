@@ -3,11 +3,13 @@
 
 using System;
 using System.Runtime.InteropServices;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
 #if !NET451
-using Microsoft.Data.Sqlite.Utilities;
+
 #endif
 
-namespace Microsoft.Data.Sqlite.Interop
+namespace Spreads.SQLite.Interop
 {
     public static partial class NativeMethods
     {

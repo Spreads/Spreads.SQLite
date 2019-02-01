@@ -2,8 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using Spreads.SQLite.Properties;
 
-namespace Microsoft.Data.Sqlite.Interop
+namespace Spreads.SQLite.Interop
 {
     internal class VersionedMethods
     {

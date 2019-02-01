@@ -3,11 +3,12 @@
 
 using System;
 using System.Data;
-using Microsoft.Data.Sqlite.Utilities;
-using static Microsoft.Data.Sqlite.Interop.Constants;
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
 using Xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteTransactionTest
     {
@@ -228,7 +229,7 @@ namespace Microsoft.Data.Sqlite
                     {
                         connectionB.Open();
                         var ex = Assert.Throws<SqliteException>(() => new SqliteTransaction(connectionB, IsolationLevel.Serializable, 1));
-                        Assert.Equal(SQLITE_LOCKED, ex.SqliteErrorCode);
+                        Assert.Equal(Constants.SQLITE_LOCKED, ex.SqliteErrorCode);
                     }
                 }
             }

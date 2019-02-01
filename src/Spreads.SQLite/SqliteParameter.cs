@@ -5,12 +5,11 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Globalization;
-using Microsoft.Data.Sqlite.Interop;
-using Microsoft.Data.Sqlite.Utilities;
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
 
-using static Microsoft.Data.Sqlite.Interop.Constants;
-
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     // TODO: Truncate to specified size (VB: done for blobs)
     // TODO: Infer type and size from value
@@ -378,22 +377,22 @@ namespace Microsoft.Data.Sqlite
             var size = Math.Min(_size ?? value.Length, value.Length);
             if (offset == 0)
             {
-                NativeMethods.sqlite3_bind_blob(stmt, index, value, size, SQLITE_TRANSIENT);
+                NativeMethods.sqlite3_bind_blob(stmt, index, value, size, Constants.SQLITE_TRANSIENT);
             }
             else
             {
                 fixed (byte* ptr = &value[offset])
                 {
-                    NativeMethods.sqlite3_bind_blob(stmt, index, (IntPtr)ptr, size, SQLITE_TRANSIENT);
+                    NativeMethods.sqlite3_bind_blob(stmt, index, (IntPtr)ptr, size, Constants.SQLITE_TRANSIENT);
                 }   
             }
         }
 
         private static void BindBlob(Sqlite3StmtHandle stmt, int index, byte[] value)
-            => NativeMethods.sqlite3_bind_blob(stmt, index, value, value.Length, SQLITE_TRANSIENT);
+            => NativeMethods.sqlite3_bind_blob(stmt, index, value, value.Length, Constants.SQLITE_TRANSIENT);
 
         private static void BindText(Sqlite3StmtHandle stmt, int index, string value)
-            => NativeMethods.sqlite3_bind_text(stmt, index, value, SQLITE_TRANSIENT);
+            => NativeMethods.sqlite3_bind_text(stmt, index, value, Constants.SQLITE_TRANSIENT);
 
         private static void BindDouble(Sqlite3StmtHandle stmt, int index, double value)
         {

@@ -3,7 +3,7 @@
 
 using System.Data.Common;
 
-namespace Microsoft.Data.Sqlite.Utilities
+namespace Spreads.SQLite.Utilities
 {
     internal static class DbConnectionExtensions
     {

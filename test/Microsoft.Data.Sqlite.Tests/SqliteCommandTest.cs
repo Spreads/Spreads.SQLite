@@ -3,16 +3,12 @@
 
 using System;
 using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Data.Sqlite.Interop;
-using Microsoft.Data.Sqlite.TestUtilities;
-using Microsoft.Data.Sqlite.Utilities;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Tests.TestUtilities;
+using Spreads.SQLite.Utilities;
 using Xunit;
 
-using static Microsoft.Data.Sqlite.TestUtilities.Constants;
-
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteCommandTest
     {
@@ -109,7 +105,7 @@ namespace Microsoft.Data.Sqlite
 
                 var ex = Assert.Throws<SqliteException>(() => command.ExecuteReader());
 
-                Assert.Equal(SQLITE_ERROR, ex.SqliteErrorCode);
+                Assert.Equal(Constants.SQLITE_ERROR, ex.SqliteErrorCode);
             }
         }
 

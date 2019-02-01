@@ -2,8 +2,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-using Microsoft.Data.Sqlite;
-using Microsoft.Data.Sqlite.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,8 +10,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Spreads.Buffers;
-using static Microsoft.Data.Sqlite.Interop.Constants;
-using static Microsoft.Data.Sqlite.Interop.NativeMethods.Sqlite3_spreads_sqlite3;
+using Spreads.SQLite.Interop;
+using static Spreads.SQLite.Interop.Constants;
+using static Spreads.SQLite.Interop.NativeMethods.Sqlite3_spreads_sqlite3;
 
 namespace Spreads.SQLite.Fast
 {
@@ -172,6 +171,7 @@ namespace Spreads.SQLite.Fast
         private static bool IsBusy(int rc)
             => rc == SQLITE_LOCKED
                || rc == SQLITE_BUSY
+               || rc == SQLITE_BUSY_SNAPSHOT
                || rc == SQLITE_LOCKED_SHAREDCACHE;
 
         private IEnumerable<Sqlite3StmtHandle> PrepareAndEnumerateStatements()

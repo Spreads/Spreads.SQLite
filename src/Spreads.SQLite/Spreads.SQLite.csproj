@@ -12,7 +12,7 @@
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>Spreads.SQLite</PackageId>
-    <PackageTags>SQLite;Data;ADO.NET;Spreads;full text search;FTS5</PackageTags>
+    <PackageTags>SQLite;Data;ADO.NET;Spreads;full text search;FTS5;begin concurrent;wal2</PackageTags>
     <RepositoryUrl>https://github.com/Spreads/Spreads.SQLite</RepositoryUrl>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
@@ -26,22 +26,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\lib\out\w32\bin\spreads_sqlite3.dll.compressed">
+    <EmbeddedResource Include="..\..\lib\out\w32\spreads_sqlite3.dll.compressed">
       <Link>native\win.x32.spreads_sqlite3.dll</Link>
       <LogicalName>win.x32.spreads_sqlite3.dll</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\lib\out\w64\bin\spreads_sqlite3.dll.compressed">
+    <EmbeddedResource Include="..\..\lib\out\w64\spreads_sqlite3.dll.compressed">
       <Link>native\win.x64.spreads_sqlite3.dll</Link>
       <LogicalName>win.x64.spreads_sqlite3.dll</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\lib\out\l64\bin\spreads_sqlite3.compressed">
+    <EmbeddedResource Include="..\..\lib\out\l64\spreads_sqlite3.compressed">
       <Link>native\lin.x64.spreads_sqlite3.so</Link>
       <LogicalName>lin.x64.spreads_sqlite3.so</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="1.0.0-build1810250354R" />
+    <PackageReference Include="Spreads.Core" Version="1.0.0-build1811081528R" />
   </ItemGroup>
 
   <ItemGroup>

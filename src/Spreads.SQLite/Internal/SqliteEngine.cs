@@ -1,9 +1,9 @@
 ﻿// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Microsoft.Data.Sqlite.Interop;
+using Spreads.SQLite.Interop;
 
-namespace Microsoft.Data.Sqlite.Internal
+namespace Spreads.SQLite.Internal
 {
     /// <summary>
     /// Enables configuration of global SQLite settings. This API may change or be removed in future releases.

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Microsoft.Data.Sqlite.Interop
+namespace Spreads.SQLite.Interop
 {
     internal static class Constants
     {
@@ -38,7 +38,17 @@ namespace Microsoft.Data.Sqlite.Interop
         /// The database file is locked	
         /// </summary>
         public const int SQLITE_BUSY = 5;
-        				
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int SQLITE_BUSY_RECOVERY = (SQLITE_BUSY | (1 << 8));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public const int SQLITE_BUSY_SNAPSHOT = (SQLITE_BUSY | (2 << 8));
+
         /// <summary>
         /// A table in the database is locked	
         /// </summary>

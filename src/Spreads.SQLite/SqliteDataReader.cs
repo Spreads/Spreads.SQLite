@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.InteropServices;
-using Microsoft.Data.Sqlite.Interop;
-using Microsoft.Data.Sqlite.Utilities;
-using static Microsoft.Data.Sqlite.Interop.Constants;
+using Spreads.SQLite.Interop;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Utilities;
+
 #if NET451
 using System.Data;
 #endif
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Provides methods for reading the result of a command executed against a SQLite database.
@@ -146,7 +146,7 @@ namespace Microsoft.Data.Sqlite
             var rc = NativeMethods.sqlite3_step(_stmt);
             MarshalEx.ThrowExceptionForRC(rc, _command.Connection.DbHandle);
 
-            _done = rc == SQLITE_DONE;
+            _done = rc == Constants.SQLITE_DONE;
 
             return !_done;
         }
@@ -294,19 +294,19 @@ namespace Microsoft.Data.Sqlite
             var sqliteType = GetSqliteType(ordinal);
             switch (sqliteType)
             {
-                case SQLITE_INTEGER:
+                case Constants.SQLITE_INTEGER:
                     return "INTEGER";
 
-                case SQLITE_FLOAT:
+                case Constants.SQLITE_FLOAT:
                     return "REAL";
 
-                case SQLITE_TEXT:
+                case Constants.SQLITE_TEXT:
                     return "TEXT";
 
-                case SQLITE_BLOB:
+                case Constants.SQLITE_BLOB:
                     return "BLOB";
 
-                case SQLITE_NULL:
+                case Constants.SQLITE_NULL:
                     return "INTEGER";
 
                 default:
@@ -330,19 +330,19 @@ namespace Microsoft.Data.Sqlite
             var sqliteType = GetSqliteType(ordinal);
             switch (sqliteType)
             {
-                case SQLITE_INTEGER:
+                case Constants.SQLITE_INTEGER:
                     return typeof(long);
 
-                case SQLITE_FLOAT:
+                case Constants.SQLITE_FLOAT:
                     return typeof(double);
 
-                case SQLITE_TEXT:
+                case Constants.SQLITE_TEXT:
                     return typeof(string);
 
-                case SQLITE_BLOB:
+                case Constants.SQLITE_BLOB:
                     return typeof(byte[]);
 
-                case SQLITE_NULL:
+                case Constants.SQLITE_NULL:
                     return typeof(int);
 
                 default:
@@ -354,7 +354,7 @@ namespace Microsoft.Data.Sqlite
         private int GetSqliteType(int ordinal)
         {
             var type = NativeMethods.sqlite3_column_type(_stmt, ordinal);
-            if (type == SQLITE_NULL
+            if (type == Constants.SQLITE_NULL
                 && (ordinal < 0 || ordinal >= FieldCount))
             {
                 // NB: Message is provided by the framework
@@ -380,7 +380,7 @@ namespace Microsoft.Data.Sqlite
                 throw new InvalidOperationException(Strings.NoData);
             }
 
-            return GetSqliteType(ordinal) == SQLITE_NULL;
+            return GetSqliteType(ordinal) == Constants.SQLITE_NULL;
         }
 
         /// <summary>
@@ -641,19 +641,19 @@ namespace Microsoft.Data.Sqlite
             var sqliteType = GetSqliteType(ordinal);
             switch (sqliteType)
             {
-                case SQLITE_INTEGER:
+                case Constants.SQLITE_INTEGER:
                     return GetInt64(ordinal);
 
-                case SQLITE_FLOAT:
+                case Constants.SQLITE_FLOAT:
                     return GetDouble(ordinal);
 
-                case SQLITE_TEXT:
+                case Constants.SQLITE_TEXT:
                     return GetString(ordinal);
 
-                case SQLITE_BLOB:
+                case Constants.SQLITE_BLOB:
                     return GetBlob(ordinal);
 
-                case SQLITE_NULL:
+                case Constants.SQLITE_NULL:
                     if (!_stepped || _done)
                     {
                         throw new InvalidOperationException(Strings.NoData);

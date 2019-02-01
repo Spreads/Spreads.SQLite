@@ -13,6 +13,6 @@ set "build=build%fullstamp%"
 echo build: "%build%"
 
 dotnet restore ..\src\Spreads.SQLite
-dotnet pack ..\src\Spreads.SQLite -c RELEASE -o C:\tools\LocalNuget --version-suffix "%build%"
+dotnet pack ..\src\Spreads.SQLite -c RELEASE -o C:\transient\LocalNuget --version-suffix "%build%"
 
 pause

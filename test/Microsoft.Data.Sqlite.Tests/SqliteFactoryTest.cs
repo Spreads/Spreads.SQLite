@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.Data.Sqlite.Tests
+namespace Spreads.SQLite.Tests
 {
     public class SqliteFactoryTest
     {

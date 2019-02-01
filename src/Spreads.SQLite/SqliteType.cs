@@ -1,9 +1,9 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using static Microsoft.Data.Sqlite.Interop.Constants;
+using Spreads.SQLite.Interop;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Represents the type affinities used by columns in SQLite tables.
@@ -14,21 +14,21 @@ namespace Microsoft.Data.Sqlite
         /// <summary>
         /// A signed integer.
         /// </summary>
-        Integer = SQLITE_INTEGER,
+        Integer = Constants.SQLITE_INTEGER,
 
         /// <summary>
         /// A floating point value.
         /// </summary>
-        Real = SQLITE_FLOAT,
+        Real = Constants.SQLITE_FLOAT,
 
         /// <summary>
         /// A text string.
         /// </summary>
-        Text = SQLITE_TEXT,
+        Text = Constants.SQLITE_TEXT,
 
         /// <summary>
         /// A blob of data.
         /// </summary>
-        Blob = SQLITE_BLOB
+        Blob = Constants.SQLITE_BLOB
     }
 }

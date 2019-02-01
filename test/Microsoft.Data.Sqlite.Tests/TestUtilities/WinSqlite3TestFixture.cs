@@ -2,14 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Reflection;
-using Microsoft.Data.Sqlite.Internal;
+using Spreads.SQLite.Internal;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
 [assembly: Xunit.TestFramework("Microsoft.Data.Sqlite.WinSqlite3TestFramework", "Microsoft.Data.Sqlite.Tests")]
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests.TestUtilities
 {
     public class WinSqlite3TestFramework : XunitTestFramework
     {

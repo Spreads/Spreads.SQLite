@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteExceptionTest
     {

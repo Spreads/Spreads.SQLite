@@ -3,11 +3,12 @@
 
 using System;
 using System.Data.Common;
-using Microsoft.Data.Sqlite.TestUtilities;
-using Microsoft.Data.Sqlite.Utilities;
+using Spreads.SQLite.Properties;
+using Spreads.SQLite.Tests.TestUtilities;
+using Spreads.SQLite.Utilities;
 using Xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteDataReaderTest
     {

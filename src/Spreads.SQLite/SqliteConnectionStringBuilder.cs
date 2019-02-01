@@ -9,8 +9,9 @@ using System.Data.Common;
 using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
+using Spreads.SQLite.Properties;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite
 {
     /// <summary>
     /// Provides a simple way to create and manage the contents of connection strings used by

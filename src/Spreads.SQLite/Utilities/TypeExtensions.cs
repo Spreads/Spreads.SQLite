@@ -4,7 +4,7 @@
 using System;
 using System.Reflection;
 
-namespace Microsoft.Data.Sqlite.Utilities
+namespace Spreads.SQLite.Utilities
 {
     internal static class TypeExtensions
     {

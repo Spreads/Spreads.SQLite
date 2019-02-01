@@ -3,9 +3,10 @@
 
 using System;
 using System.Data;
+using Spreads.SQLite.Properties;
 using Xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteParameterTest
     {

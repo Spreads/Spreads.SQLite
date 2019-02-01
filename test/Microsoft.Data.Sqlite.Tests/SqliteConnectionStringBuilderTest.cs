@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-//using Microsoft.AspNetCore.Testing.xunit;
+using Spreads.SQLite.Properties;
 using Xunit;
 
-namespace Microsoft.Data.Sqlite
+namespace Spreads.SQLite.Tests
 {
     public class SqliteConnectionStringBuilderTest
     {

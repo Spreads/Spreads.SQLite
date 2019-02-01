@@ -10,7 +10,7 @@ using System.Security;
 using Microsoft.Data.Sqlite.Utilities;
 #endif
 
-namespace Microsoft.Data.Sqlite.Interop
+namespace Spreads.SQLite.Interop
 {
     public partial class NativeMethods
     {
