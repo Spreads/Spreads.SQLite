@@ -29,7 +29,7 @@ namespace Spreads.SQLite.Tests.Fast
 
             var fastQuery = new FastQuery("SELECT @X", conn, pool);
 
-            var count = 5_000_000;
+            var count = 10_000_000;
 
             // cache delegates
             Action<QueryBinder, long> bindMethod = BindAction;
@@ -40,8 +40,9 @@ namespace Spreads.SQLite.Tests.Fast
             {
                 fastQuery.Bind(bindMethod, i);
 
-                while (fastQuery.Step(readerMethod, i))
-                { }
+                fastQuery.RawStep(readerMethod, i, out var _);
+                //while ()
+                //{ }
 
                 fastQuery.Reset();
             }

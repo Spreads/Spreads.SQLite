@@ -5,7 +5,10 @@ using System;
 
 namespace Spreads.SQLite.Interop
 {
-    internal static class Constants
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class Constants
     {
         // Result Codes
 

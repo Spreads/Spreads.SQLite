@@ -2,15 +2,14 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+using Spreads.Buffers;
+using Spreads.SQLite.Interop;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
-using Spreads.Buffers;
-using Spreads.SQLite.Interop;
 using static Spreads.SQLite.Interop.Constants;
 using static Spreads.SQLite.Interop.NativeMethods.Sqlite3_spreads_sqlite3;
 
@@ -244,6 +243,27 @@ namespace Spreads.SQLite.Fast
             MarshalEx.ThrowExceptionForRC(rc, _dbHandle);
             var hasRow = rc == SQLITE_ROW;
             return readerFunc.Invoke(hasRow, new QueryReader(_pStmt, _dbHandle), state);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int RawStep<TState, TResult>(Func<bool, QueryReader, TState, TResult> readerFunc, TState state, out TResult result)
+        {
+            int rc;
+            rc = sqlite3_step(_pStmt);
+
+            if (rc == SQLITE_OK
+                || rc == SQLITE_ROW
+                || rc == SQLITE_DONE)
+            {
+                var hasRow = rc == SQLITE_ROW;
+                result = readerFunc.Invoke(hasRow, new QueryReader(_pStmt, _dbHandle), state);
+            }
+            else
+            {
+                result = default;
+            }
+
+            return rc;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
