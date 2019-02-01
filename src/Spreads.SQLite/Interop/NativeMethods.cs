@@ -283,14 +283,14 @@ namespace Spreads.SQLite.Interop
         }
 
         // always uses 1 for prepFlags in v3. for other cases use v2
-        public static int sqlite3_prepare_v3(Sqlite3Handle db, string zSql, out Sqlite3StmtHandle ppStmt, out string pzTail)
+        public static int sqlite3_prepare_v3(IntPtr db, string zSql, out Sqlite3StmtHandle ppStmt, out string pzTail)
         {
             int nByte;
             var zSqlPtr = MarshalEx.StringToHGlobalUTF8(zSql, out nByte);
             try
             {
                 IntPtr pzTailPtr;
-                var rc = Sqlite3_spreads_sqlite3.sqlite3_prepare_v2(db, zSqlPtr, nByte, out ppStmt, out pzTailPtr); // TODO v3 with 1
+                var rc = Sqlite3_spreads_sqlite3.sqlite3_prepare_v3(db, zSqlPtr, nByte, 1, out ppStmt, out pzTailPtr);
                 pzTail = MarshalEx.PtrToStringUTF8(pzTailPtr);
 
                 return rc;

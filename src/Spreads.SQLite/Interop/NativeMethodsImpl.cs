@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 
@@ -38,11 +39,23 @@ namespace Spreads.SQLite.Interop
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_clear_bindings(IntPtr pStmt);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_blob(IntPtr pStmt, int i, byte[] zData, int nData, IntPtr xDel);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_blob(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_blob(IntPtr pStmt, int i, IntPtr zData, int nData, IntPtr xDel);
 
             public int bind_blob(Sqlite3StmtHandle pStmt, int i, byte[] zData, int nData, IntPtr xDel)
                 => sqlite3_bind_blob(pStmt, i, zData, nData, xDel);
@@ -78,6 +91,11 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_double(Sqlite3StmtHandle pStmt, int i, double rValue);
 
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_double(IntPtr pStmt, int i, double rValue);
+
             public int bind_double(Sqlite3StmtHandle pStmt, int i, double rValue)
                 => sqlite3_bind_double(pStmt, i, rValue);
 
@@ -85,12 +103,22 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_int64(Sqlite3StmtHandle pStmt, int i, long iValue);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_int64(IntPtr pStmt, int i, long iValue);
+
+
             public int bind_int64(Sqlite3StmtHandle pStmt, int i, long iValue)
                 => sqlite3_bind_int64(pStmt, i, iValue);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_null(Sqlite3StmtHandle pStmt, int i);
+
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_null(IntPtr pStmt, int i);
 
             public int bind_null(Sqlite3StmtHandle pStmt, int i)
                 => sqlite3_bind_null(pStmt, i);
@@ -134,12 +162,20 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_changes(Sqlite3Handle db);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_changes(IntPtr db);
+
             public int changes(Sqlite3Handle db)
                 => sqlite3_changes(db);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern long sqlite3_last_insert_rowid(Sqlite3Handle db);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern long sqlite3_last_insert_rowid(IntPtr db);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -159,6 +195,10 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern IntPtr sqlite3_column_blob(Sqlite3StmtHandle pStmt, int iCol);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern IntPtr sqlite3_column_blob(IntPtr pStmt, int iCol);
+
             public IntPtr column_blob(Sqlite3StmtHandle pStmt, int iCol)
                 => sqlite3_column_blob(pStmt, iCol);
 
@@ -166,12 +206,20 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_column_bytes(Sqlite3StmtHandle pStmt, int iCol);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_column_bytes(IntPtr pStmt, int iCol);
+
             public int column_bytes(Sqlite3StmtHandle pStmt, int iCol)
                 => sqlite3_column_bytes(pStmt, iCol);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_column_count(Sqlite3StmtHandle stmt);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_column_count(IntPtr stmt);
 
             public int column_count(Sqlite3StmtHandle stmt)
                 => sqlite3_column_count(stmt);
@@ -187,12 +235,21 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern double sqlite3_column_double(Sqlite3StmtHandle stmt, int iCol);
 
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern double sqlite3_column_double(IntPtr stmt, int iCol);
+
             public double column_double(Sqlite3StmtHandle stmt, int iCol)
                 => sqlite3_column_double(stmt, iCol);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern long sqlite3_column_int64(Sqlite3StmtHandle stmt, int iCol);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern long sqlite3_column_int64(IntPtr stmt, int iCol);
 
             public long column_int64(Sqlite3StmtHandle stmt, int iCol)
                 => sqlite3_column_int64(stmt, iCol);
@@ -214,6 +271,10 @@ namespace Spreads.SQLite.Interop
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_column_type(Sqlite3StmtHandle stmt, int iCol);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_column_type(IntPtr stmt, int iCol);
 
             public int column_type(Sqlite3StmtHandle stmt, int iCol)
                 => sqlite3_column_type(stmt, iCol);
@@ -276,8 +337,11 @@ namespace Spreads.SQLite.Interop
                 out Sqlite3StmtHandle ppStmt,
                 out IntPtr pzTail);
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public int prepare_v2(Sqlite3Handle db, IntPtr zSql, int nByte, out Sqlite3StmtHandle ppStmt, out IntPtr pzTail)
-                => sqlite3_prepare_v2(db, zSql, nByte, out ppStmt, out pzTail);
+            {
+                return sqlite3_prepare_v2(db, zSql, nByte, out ppStmt, out pzTail);
+            }
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
@@ -289,12 +353,29 @@ namespace Spreads.SQLite.Interop
                 out Sqlite3StmtHandle ppStmt,
                 out IntPtr pzTail);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_prepare_v3(
+                IntPtr db,
+                IntPtr zSql,
+                int nByte,
+                uint prepFlags,
+                out Sqlite3StmtHandle ppStmt,
+                out IntPtr pzTail);
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public int prepare_v3(Sqlite3Handle db, IntPtr zSql, int nByte, uint prepFlags, out Sqlite3StmtHandle ppStmt, out IntPtr pzTail)
-                => sqlite3_prepare_v3(db, zSql, nByte, prepFlags, out ppStmt, out pzTail);
+            {
+                return sqlite3_prepare_v3(db, zSql, nByte, prepFlags, out ppStmt, out pzTail);
+            }
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_reset(Sqlite3StmtHandle stmt);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_reset(IntPtr stmt);
 
             public int reset(Sqlite3StmtHandle stmt)
                 => sqlite3_reset(stmt);
@@ -303,11 +384,19 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_step(Sqlite3StmtHandle stmt);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_step(IntPtr stmt);
+
             public int step(Sqlite3StmtHandle stmt) => sqlite3_step(stmt);
 
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_stmt_readonly(Sqlite3StmtHandle pStmt);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_stmt_readonly(IntPtr pStmt);
 
             public int stmt_readonly(Sqlite3StmtHandle pStmt)
                 => sqlite3_stmt_readonly(pStmt);

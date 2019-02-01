@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Spreads.SQLite.Interop
@@ -11,6 +12,12 @@ namespace Spreads.SQLite.Interop
         protected Sqlite3StmtHandle()
             : base(IntPtr.Zero, ownsHandle: true)
         {
+        }
+
+        internal IntPtr Handle
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => handle;
         }
 
         public override bool IsInvalid
