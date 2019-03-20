@@ -313,6 +313,14 @@ namespace Spreads.SQLite.Fast
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ClearAndReset()
+        {
+            // Contrary to the intuition of many, sqlite3_reset() does not reset the bindings on a prepared statement. 
+            sqlite3_clear_bindings(_pStmt.Handle);
+            sqlite3_reset(_pStmt.Handle);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
         {
             sqlite3_reset(_pStmt.Handle);

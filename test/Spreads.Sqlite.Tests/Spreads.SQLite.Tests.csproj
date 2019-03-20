@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <AssemblyName>Microsoft.Data.Sqlite.Tests</AssemblyName>
+    <AssemblyName>Spreads.Sqlite.Tests</AssemblyName>
     <OutputType>Exe</OutputType>
     <AssemblyOriginatorKeyFile>../../tools/Key.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>

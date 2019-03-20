@@ -328,6 +328,11 @@ namespace Spreads.SQLite.Interop
             public int open_v2(IntPtr filename, out Sqlite3Handle ppDb, int flags, IntPtr vfs)
                 => sqlite3_open_v2(filename, out ppDb, flags, vfs);
 
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_extended_result_codes(Sqlite3Handle db, int oneoff);
+
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_prepare_v2(

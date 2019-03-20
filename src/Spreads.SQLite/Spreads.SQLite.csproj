@@ -23,6 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <LangVersion>7.2</LangVersion>
+    <PackageIconUrl>https://raw.githubusercontent.com/DataSpreads/Docs/master/images/Spreads/Spreads_64.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>

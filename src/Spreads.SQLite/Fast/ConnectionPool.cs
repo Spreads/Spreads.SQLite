@@ -6,6 +6,7 @@ using Spreads.Collections.Concurrent;
 using System;
 using System.Data;
 using Spreads.SQLite.Utilities;
+using static Spreads.SQLite.Interop.NativeMethods.Sqlite3_spreads_sqlite3;
 
 namespace Spreads.SQLite.Fast
 {
@@ -29,6 +30,7 @@ namespace Spreads.SQLite.Fast
         {
             var connection = new SqliteConnection(ConnectionString);
             connection.Open();
+            sqlite3_extended_result_codes(connection.DbHandle, 1);
             InitConnection(connection);
             return connection;
         }

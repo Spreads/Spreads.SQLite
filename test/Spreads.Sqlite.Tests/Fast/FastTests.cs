@@ -49,7 +49,7 @@ namespace Spreads.SQLite.Tests.Fast
             this.output = output;
         }
 
-        [Fact]
+        [Fact(Skip = "Run from console")]
         public void FastSimpleTest()
         {
             var connStr = "Data Source=data.db";
@@ -60,7 +60,7 @@ namespace Spreads.SQLite.Tests.Fast
 
             var fastQuery = new FastQuery("SELECT @X", conn, pool);
 
-            var count = 50_000_000;
+            var count = 100_000_000;
 
             // cache delegates
             Action<QueryBinder, long> bindMethod = BindAction;
@@ -79,7 +79,7 @@ namespace Spreads.SQLite.Tests.Fast
             }
             sw.Stop();
 
-            output.WriteLine("FastQuery: " + sw.ElapsedMilliseconds);
+            Console.WriteLine("FastQuery: " + sw.ElapsedMilliseconds);
 
             fastQuery.Dispose();
 

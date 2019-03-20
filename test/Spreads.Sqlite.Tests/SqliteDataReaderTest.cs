@@ -107,7 +107,7 @@ namespace Spreads.SQLite.Tests
                 r => r.GetDateTime(0),
                 new DateTime(2014, 4, 15, 10, 47, 16));
 
-        [Theory]
+        [Theory(Skip = "Compiled with SQLITE_OMIT_DECLTYPE")]
         [InlineData("SELECT 1;", "INTEGER")]
         [InlineData("SELECT 3.14;", "REAL")]
         [InlineData("SELECT 'test';", "TEXT")]
@@ -126,7 +126,7 @@ namespace Spreads.SQLite.Tests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "Compiled with SQLITE_OMIT_DECLTYPE")]
         public void GetDataTypeName_works_when_column()
         {
             using (var connection = new SqliteConnection("Data Source=:memory:"))
@@ -141,7 +141,7 @@ namespace Spreads.SQLite.Tests
             }
         }
 
-        [Fact]
+        [Fact(Skip = "Compiled with SQLITE_OMIT_DECLTYPE")]
         public void GetDataTypeName_throws_when_ordinal_out_of_range()
         {
             using (var connection = new SqliteConnection("Data Source=:memory:"))
