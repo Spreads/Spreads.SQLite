@@ -13,17 +13,6 @@ namespace Spreads.SQLite.Interop
 {
     public static partial class NativeMethods
     {
-        static NativeMethods() {
-            // Ensure Bootstrapper is initialized and native libraries are loaded
-            Spreads.Utils.Bootstrap.Bootstrapper.Instance.Bootstrap<SqliteConnection>(
-                "spreads_sqlite3",
-                null,
-                () => { },
-                (lib) => { },
-                () => {
-                });
-        }
-
         private static string _dllName = "spreads_sqlite3";
         private static Lazy<ISqlite3> _sqlite3 = new Lazy<ISqlite3>(() => Load(_dllName));
 

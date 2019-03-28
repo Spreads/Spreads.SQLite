@@ -27,8 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <NativeLibs Include="..\..\lib\runtimes\**\*.*" Exclude="$(MSBuildThisFileDirectory)win-x86\**\*.x86.dll" />
-    <None Include="@(NativeLibs)">
+    <None Include="..\..\lib\runtimes\win-x64\native\spreads_sqlite3.dll">
+      <Link>%(FileName)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
+    <None Include="..\..\lib\runtimes\linux-x64\native\libspreads_sqlite3.so">
       <Link>%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>
