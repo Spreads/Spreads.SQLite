@@ -1,3 +1,8 @@
+|   Linux   |  Windows  | 
+|:---------:|:---------:|
+| [![Build Status](https://dev.azure.com/DataSpreads/Spreads.SQLite/_apis/build/status/Spreads.Spreads.SQLite?branchName=Spreads&jobName=Linux)](https://dev.azure.com/DataSpreads/Spreads.SQLite/_build/latest?definitionId=9&branchName=Spreads) | [![Build Status](https://dev.azure.com/DataSpreads/Spreads.SQLite/_apis/build/status/Spreads.Spreads.SQLite?branchName=Spreads&jobName=Windows)](https://dev.azure.com/DataSpreads/Spreads.SQLite/_build/latest?definitionId=9&branchName=Spreads) | 
+
+
 Spreads.SQLite
 =====================
 

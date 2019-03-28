@@ -5,7 +5,7 @@
 
 
 trigger:
-- master
+- Spreads
 
 variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -20,7 +20,7 @@ jobs:
     inputs:
       version: '3.0.100-preview4-010538'
 
-  - script: dotnet test test/Spreads.SQLite.Tests/Spreads.SQLite.Tests.csproj -f netcoreapp3.0 -c Release -v m
+  - script: dotnet test test/Spreads.Sqlite.Tests/Spreads.SQLite.Tests.csproj -f netcoreapp3.0 -c Release -v m
     displayName: 'Test Release netcoreapp3.0'
 
 - job: Windows
@@ -32,5 +32,5 @@ jobs:
     inputs:
       version: '3.0.100-preview4-010538'
 
-  - script: dotnet test test/Spreads.SQLite.Tests/Spreads.SQLite.Tests.csproj -f netcoreapp3.0 -c Release -v m
+  - script: dotnet test test/Spreads.Sqlite.Tests/Spreads.SQLite.Tests.csproj -f netcoreapp3.0 -c Release -v m
     displayName: 'Test Release netcoreapp3.0'
