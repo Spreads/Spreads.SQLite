@@ -1,0 +1,11 @@
+<Project>
+  <!-- common.props is per repo config -->
+  <Import Project="Spreads.props" />
+  <PropertyGroup>
+    <Description>Zero overhead FastQuery for Sqlite. Fork of an early version of Microsoft.Data.Sqlite.</Description>
+    <PackageTags>SQLite;Data;ADO.NET;Spreads;full text search;FTS5;begin concurrent;wal2</PackageTags>
+    <PackageProjectUrl>http://docs.dataspreads.io/spreads/libs/sqlite/api/README.html</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Spreads/Spreads.SQLite.git</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

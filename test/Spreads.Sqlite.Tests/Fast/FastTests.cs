@@ -49,8 +49,43 @@ namespace Spreads.SQLite.Tests.Fast
             this.output = output;
         }
 
+        [Fact]
+        public void FastQueryTest()
+        {
+            var connStr = "Data Source=data.db";
+
+            var pool = new ConnectionPool(connStr);
+
+            var conn = pool.Rent();
+
+            var fastQuery = new FastQuery("SELECT @X", conn, pool);
+
+            var count = 1000;
+
+            // cache delegates
+            Action<QueryBinder, long> bindMethod = BindAction;
+            Func<bool, QueryReader, long, bool> readerMethod = ReaderFunc;
+
+            var sw = Stopwatch.StartNew();
+            for (int i = 0; i < count; i++)
+            {
+                fastQuery.Bind<TestBinderAction, long>(i);
+
+                fastQuery.RawStep<TestReader, long, bool>(i, out var _);
+                //while ()
+                //{ }
+
+                fastQuery.Reset();
+            }
+            sw.Stop();
+
+            fastQuery.Dispose();
+
+            pool.Dispose();
+        }
+
         [Fact(Skip = "Run from console")]
-        public void FastSimpleTest()
+        public void FastBench()
         {
             var connStr = "Data Source=data.db";
 

@@ -1,48 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\build\common.props" />
   <PropertyGroup>
-    <Description>Fork of Microsoft.Data.Sqlite adopted for Spreads.</Description>
-    <VersionPrefix>2.0.0</VersionPrefix>
-    <VersionSuffix>alpha</VersionSuffix>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Spreads.SQLite</AssemblyName>
-    <AssemblyOriginatorKeyFile>../../tools/SpreadsKey.snk</AssemblyOriginatorKeyFile>
-    <SignAssembly>true</SignAssembly>
-    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <PackageId>Spreads.SQLite</PackageId>
-    <PackageTags>SQLite;Data;ADO.NET;Spreads;full text search;FTS5;begin concurrent;wal2</PackageTags>
-    <RepositoryUrl>https://github.com/Spreads/Spreads.SQLite</RepositoryUrl>
-    <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <DelaySign>False</DelaySign>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <LangVersion>7.2</LangVersion>
-    <PackageIconUrl>https://raw.githubusercontent.com/DataSpreads/Docs/master/images/Spreads/Spreads_64.png</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\..\lib\out\w32\spreads_sqlite3.dll.compressed">
-      <Link>native\win.x32.spreads_sqlite3.dll</Link>
-      <LogicalName>win.x32.spreads_sqlite3.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\lib\out\w64\spreads_sqlite3.dll.compressed">
-      <Link>native\win.x64.spreads_sqlite3.dll</Link>
-      <LogicalName>win.x64.spreads_sqlite3.dll</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\lib\out\l64\spreads_sqlite3.compressed">
-      <Link>native\lin.x64.spreads_sqlite3.so</Link>
-      <LogicalName>lin.x64.spreads_sqlite3.so</LogicalName>
-    </EmbeddedResource>
+    <None Include="..\..\lib\runtimes\**\*.*">
+      <Pack>true</Pack>
+      <PackagePath>runtimes</PackagePath>
+    </None>
   </ItemGroup>
-
+  
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="1.0.0-build1811081528R" />
+    <PackageReference Include="Spreads.Core" Version="1.0.0-build1903281258R" />
   </ItemGroup>
 
   <ItemGroup>

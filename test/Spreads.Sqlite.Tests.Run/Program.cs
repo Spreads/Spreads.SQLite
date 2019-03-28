@@ -8,7 +8,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             var test = new FastTest(null);
-            test.FastSimpleTest();
+            test.FastBench();
         }
     }
 }
