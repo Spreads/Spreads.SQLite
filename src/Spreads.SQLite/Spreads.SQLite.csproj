@@ -12,9 +12,9 @@
       <PackagePath>runtimes</PackagePath>
     </None>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="1.0.0-build1903281258R" />
+    <PackageReference Include="Spreads.Core" Version="2019.0.328" />
   </ItemGroup>
 
   <ItemGroup>
