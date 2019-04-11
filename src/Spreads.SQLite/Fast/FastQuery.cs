@@ -26,22 +26,20 @@ namespace Spreads.SQLite.Fast
     // 4. Reset the prepared statement using sqlite3_reset() then go back to step 2. Do this zero or more times.
     // 5. Destroy the object using sqlite3_finalize().
 
-
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IQueryBinderAction<T>
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="state"></param>
         [Pure]
         void Invoke(QueryBinder binder, T state);
     }
-
 
     // bool, QueryReader, TState, TResult
 
@@ -65,6 +63,12 @@ namespace Spreads.SQLite.Fast
         public int BindBlob(int i, IntPtr zData, int nData)
         {
             return sqlite3_bind_blob(_pStmtHandle, i, zData, nData, SQLITE_STATIC);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int BindText(int i, IntPtr zData, int nData)
+        {
+            return sqlite3_bind_text(_pStmtHandle, i, zData, nData, SQLITE_TRANSIENT);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -116,6 +120,12 @@ namespace Spreads.SQLite.Fast
         public IntPtr ColumnBlob(int i)
         {
             return sqlite3_column_blob(_pStmtHandle, i);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IntPtr ColumnText(int i)
+        {
+            return sqlite3_column_text(_pStmtHandle, i);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -256,7 +266,6 @@ namespace Spreads.SQLite.Fast
             default(TAction).Invoke(new QueryBinder(_pStmt), state);
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TResult Step<TState, TResult>(Func<bool, QueryReader, TState, TResult> readerFunc, TState state)
         {
@@ -291,12 +300,12 @@ namespace Spreads.SQLite.Fast
             {
                 result = readerFunc(hasRow, new QueryReader(_pStmt, _dbHandle), state);
             }
-           
+
             return rc;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int RawStep<TReader, TState, TResult>(TState state, out TResult result) 
+        public int RawStep<TReader, TState, TResult>(TState state, out TResult result)
             where TReader : struct, IStepReader<TState, TResult>
         {
             var rc = sqlite3_step(_pStmt.Handle);
@@ -315,7 +324,7 @@ namespace Spreads.SQLite.Fast
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ClearAndReset()
         {
-            // Contrary to the intuition of many, sqlite3_reset() does not reset the bindings on a prepared statement. 
+            // Contrary to the intuition of many, sqlite3_reset() does not reset the bindings on a prepared statement.
             sqlite3_clear_bindings(_pStmt.Handle);
             sqlite3_reset(_pStmt.Handle);
         }

@@ -148,6 +148,10 @@ namespace Spreads.SQLite.Interop
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern int sqlite3_bind_text(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int n, IntPtr xDel);
 
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern int sqlite3_bind_text(IntPtr pStmt, int i, IntPtr zData, int n, IntPtr xDel);
+
             public int bind_text(Sqlite3StmtHandle pStmt, int i, IntPtr zData, int n, IntPtr xDel)
                 => sqlite3_bind_text(pStmt, i, zData, n, xDel);
 
@@ -264,6 +268,10 @@ namespace Spreads.SQLite.Interop
             [SuppressUnmanagedCodeSecurity]
             [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
             public static extern IntPtr sqlite3_column_text(Sqlite3StmtHandle stmt, int iCol);
+
+            [SuppressUnmanagedCodeSecurity]
+            [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+            public static extern IntPtr sqlite3_column_text(IntPtr stmt, int iCol);
 
             public IntPtr column_text(Sqlite3StmtHandle stmt, int iCol)
                 => sqlite3_column_text(stmt, iCol);
