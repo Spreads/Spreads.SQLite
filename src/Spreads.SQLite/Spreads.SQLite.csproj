@@ -14,7 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spreads.Core" Version="2019.0.402" />
+    <PackageReference Include="Spreads.Core" Version="2020.0.*" Condition=" !Exists ( '..\..\..\Spreads\src\Spreads.Core\Spreads.Core.csproj' ) " />
+  </ItemGroup>
+
+  <ItemGroup Condition=" Exists ( '..\..\..\Spreads\src\Spreads.Core\Spreads.Core.csproj' ) ">
+    <ProjectReference Include="..\..\..\Spreads\src\Spreads.Core\Spreads.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
