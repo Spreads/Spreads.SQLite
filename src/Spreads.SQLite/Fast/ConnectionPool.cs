@@ -18,7 +18,7 @@ namespace Spreads.SQLite.Fast
         public ConnectionPool(string connectionString)
         {
             ConnectionString = connectionString;
-            _pool = new LockedObjectPool<SqliteConnection>(Environment.ProcessorCount * 2, OpenConnection);
+            _pool = new LockedObjectPool<SqliteConnection>(OpenConnection, Environment.ProcessorCount * 2);
             // construct first object for exception on construction if any
             _pool.Return(_pool.Rent());
             _state = ConnectionState.Open;

@@ -74,7 +74,7 @@ namespace Spreads.SQLite.Fast
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int BindBlob(int i, DirectBuffer buffer)
         {
-            return sqlite3_bind_blob(_pStmtHandle, i, buffer.IntPtr, buffer.Length, SQLITE_STATIC);
+            return sqlite3_bind_blob(_pStmtHandle, i, buffer.DataIntPtr, buffer.Length, SQLITE_STATIC);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
