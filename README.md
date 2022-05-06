@@ -6,11 +6,8 @@
 Spreads.SQLite
 =====================
 
-Fork of an early version of [Microsoft.Data.Sqlite](https://github.com/aspnet/Microsoft.Data.Sqlite) adopted for Spreads.
-
-Includes [`Spreads.SQLite.Fast`](http://docs.dataspreads.io/spreads/libs/sqlite/api/Spreads.SQLite.Fast.html) namespace
-with simple and fast wrappers over native functions that do not require ADO.NET ceremony and do not allocate anything. API mostly repeats 
-the native one for prepared statements with bind/step/reset.
+Extends [Microsoft.Data.Sqlite](https://github.com/aspnet/Microsoft.Data.Sqlite) with `FastQuery` class, which is 
+a simple and fast wrapper over native functions that does not require ADO.NET ceremony and does not allocate anything.
 
 NuGet binaries include [begin-concurrent](https://www.sqlite.org/src/doc/begin-concurrent/doc/begin_concurrent.md) and `wal2` features.
 

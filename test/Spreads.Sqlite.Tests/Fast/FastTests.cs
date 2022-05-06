@@ -1,12 +1,9 @@
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-using Spreads.SQLite.Fast;
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Xunit;
-using Xunit.Abstractions;
+using Microsoft.Data.Sqlite;
+using NUnit.Framework;
+using Spreads.Utils;
 
 namespace Spreads.SQLite.Tests.Fast
 {
@@ -17,7 +14,7 @@ namespace Spreads.SQLite.Tests.Fast
         {
             if (0 != b.BindInt64(1, state))
             {
-                Assert.False(true);
+                Assert.Fail();
             }
         }
     }
@@ -31,9 +28,7 @@ namespace Spreads.SQLite.Tests.Fast
             {
                 var val = reader.ColumnInt64(0);
                 if (state != val)
-                {
                     Assert.False(true);
-                }
             }
 
             result = hasRow;
@@ -42,109 +37,253 @@ namespace Spreads.SQLite.Tests.Fast
 
     public class FastTest
     {
-        private readonly ITestOutputHelper output;
-
-        public FastTest(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
-
-        [Fact]
+        [Test]
         public void FastQueryTest()
         {
             var connStr = "Data Source=data.db";
+            var conn = new SqliteConnection(connStr);
 
-            var pool = new ConnectionPool(connStr);
+            var query = "SELECT @X + @X";
 
-            var conn = pool.Rent();
-
-            var fastQuery = new FastQuery("SELECT @X", conn, pool);
+            var fastQuery = new FastQuery(query, conn);
 
             var count = 1000;
-
-            // cache delegates
-            Action<QueryBinder, long> bindMethod = BindAction;
-            Func<bool, QueryReader, long, bool> readerMethod = ReaderFunc;
 
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < count; i++)
             {
                 fastQuery.Bind<TestBinderAction, long>(i);
 
-                fastQuery.RawStep<TestReader, long, bool>(i, out var _);
-                //while ()
-                //{ }
+                fastQuery.Step<TestReader, long, bool>(i, out var _);
 
                 fastQuery.Reset();
             }
+
             sw.Stop();
 
             fastQuery.Dispose();
-
-            pool.Dispose();
         }
 
-        [Fact(Skip = "Run from console")]
+        [Test]
+        public void FastQueryTestDelegates()
+        {
+            var connectionString = "Data Source=data.db";
+            var connection = new SqliteConnection(connectionString);
+
+            var query = "SELECT @X + @X"; // single parameter
+
+            using var fastQuery = new FastQuery(query, connection);
+
+            var count = 1000;
+
+            // Cache delegates to avoid allocations
+            // Do not turn them into local function as Rider suggests
+            
+            Action<QueryBinder, long> bindMethod = (binder, value) =>
+            {
+                // Bind all parameters
+                
+                // @X, one based
+                var parameterIndex = 1; 
+                
+                var rc = binder.BindInt64(parameterIndex, value);
+                if (rc != 0)
+                    SqliteException.ThrowExceptionForRC(rc, connection.Handle);
+                
+                // same logic for other parameters
+            };
+            
+            Func<bool, QueryReader, long, bool> readerMethod = (hasRow, reader, state) =>
+            {
+                // state is passed from Step method, that helps to avoid delegate allocation
+                if (hasRow)
+                {
+                    var column = 0;
+                    var val = reader.ColumnInt64(column);
+                    
+                    if (state != val)
+                        Assert.False(true);
+                }
+
+                return hasRow;
+            };
+
+            for (int i = 0; i < count; i++)
+            {
+                fastQuery.Bind(bindMethod, i);
+                var rc = fastQuery.Step(readerMethod, i, out var _);
+                if(rc != 0)
+                    SqliteException.ThrowExceptionForRC(rc, connection.Handle);
+                fastQuery.Reset();
+            }
+            
+            fastQuery.Dispose();
+        }
+
+        [Test, Explicit]
         public void FastBench()
         {
             var connStr = "Data Source=data.db";
 
-            var pool = new ConnectionPool(connStr);
+            var rounds = 20;
+            var count = 1_000_000;
+            SpreadsSQLite.InitializeProvider();
 
-            var conn = pool.Rent();
+            using var connection = new SqliteConnection(connStr);
+            connection.Open();
+            var query = "SELECT @X + @X";
+            using var fastQuery = new FastQuery(query, connection);
 
-            var fastQuery = new FastQuery("SELECT @X", conn, pool);
-
-            var count = 100_000_000;
-
-            // cache delegates
-            Action<QueryBinder, long> bindMethod = BindAction;
-            Func<bool, QueryReader, long, bool> readerMethod = ReaderFunc;
-
-            var sw = Stopwatch.StartNew();
-            for (int i = 0; i < count; i++)
+            for (int _ = 0; _ < rounds; _++)
             {
-                fastQuery.Bind<TestBinderAction, long>(i);
+                Benchmark.Run("Fast", () =>
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        fastQuery.Bind<TestBinderAction, long>(i);
+                        fastQuery.Step<TestReader, long, bool>(2 * i, out var _);
+                        fastQuery.Reset();
+                    }
+                }, count);
 
-                fastQuery.RawStep<TestReader, long, bool>(i, out var _);
-                //while ()
-                //{ }
+                Benchmark.Run("Default", () =>
+                {
+                    var command = new SqliteCommand(query, connection);
+                    command.Parameters.Add("@X", SqliteType.Integer);
 
-                fastQuery.Reset();
+                    for (long i = 0; i < count; i++)
+                    {
+                        command.Parameters["@X"].Value = (long)i;
+
+                        using (var result = command.ExecuteReader())
+                        {
+                            result.Read();
+                            var val = result.GetInt64(0);
+                            if (2 * i != val)
+                            {
+                                Assert.False(true);
+                            }
+                        }
+                    }
+                }, count);
+
             }
-            sw.Stop();
 
-            Console.WriteLine("FastQuery: " + sw.ElapsedMilliseconds);
+            Benchmark.Dump(opsAggregate: Benchmark.OpsAggregate.MinTime);
+        }
 
-            fastQuery.Dispose();
+        [Test, Explicit]
+        public void FastBenchDelegates()
+        {
+            var connStr = "Data Source=data.db";
 
-            pool.Dispose();
+            var rounds = 20;
+            var count = 1_000_000;
+            SpreadsSQLite.InitializeProvider();
 
-            //using (var connection = new SqliteConnection(connStr))
-            //{
-            //    connection.Open();
+            using var connection = new SqliteConnection(connStr);
+            connection.Open();
+            var query = "SELECT @X + @X";
+            using var fastQuery = new FastQuery(query, connection);
 
-            //    var command = new SqliteCommand("SELECT @X;", connection);
-            //    command.Parameters.Add("@X", SqliteType.Integer);
+            for (int _ = 0; _ < rounds; _++)
+            {
+                // cache delegates
+                Action<QueryBinder, long> bindMethod = BindAction;
+                Func<bool, QueryReader, long, bool> readerMethod = ReaderFunc;
 
-            //    var sw1 = Stopwatch.StartNew();
-            //    for (long i = 0; i < count; i++)
-            //    {
-            //        command.Parameters["@X"].Value = (long)i;
+                Benchmark.Run("FastQuery", () =>
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        fastQuery.Bind(bindMethod, i);
+                        fastQuery.Step(readerMethod, 2 * i, out var _);
+                        fastQuery.Reset();
+                    }
+                }, count);
 
-            //        using (var result = command.ExecuteReader())
-            //        {
-            //            result.Read();
-            //            var val = result.GetInt64(0);
-            //            if (i != val)
-            //            {
-            //                Assert.False(true);
-            //            }
-            //        }
-            //    }
-            //    sw1.Stop();
-            //    output.WriteLine("ReaderQuery: " + sw1.ElapsedMilliseconds);
-            //}
+                Benchmark.Run("MSFT.Data.SQLite", () =>
+                {
+                    var command = new SqliteCommand(query, connection);
+                    command.Parameters.Add("@X", SqliteType.Integer);
+
+                    for (long i = 0; i < count; i++)
+                    {
+                        command.Parameters["@X"].Value = (long)i;
+
+                        using (var result = command.ExecuteReader())
+                        {
+                            result.Read();
+                            var val = result.GetInt64(0);
+                            if (2 * i != val)
+                            {
+                                Assert.False(true);
+                            }
+                        }
+                    }
+                }, count);
+
+            }
+
+            Benchmark.Dump(opsAggregate: Benchmark.OpsAggregate.MinTime);
+        }
+
+        [Test, Explicit]
+        public void FastBenchShortLiveConnection()
+        {
+            var connStr = "Data Source=data.db"; // ; Pooling = False
+
+            var rounds = 10;
+            var count = 100_000;
+            SpreadsSQLite.InitializeProvider();
+
+            for (int _ = 0; _ < rounds; _++)
+            {
+                Benchmark.Run("Fast", () =>
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        using var connection = new SqliteConnection(connStr);
+                        connection.Open();
+                        using var fastQuery = new FastQuery("SELECT @X", connection);
+
+                        fastQuery.Bind<TestBinderAction, long>(i);
+
+                        fastQuery.Step<TestReader, long, bool>(i, out var _);
+
+                        fastQuery.Reset();
+                    }
+                }, count);
+
+                {
+
+                    Benchmark.Run("Default", () =>
+                    {
+                        for (long i = 0; i < count; i++)
+                        {
+                            using var connection = new SqliteConnection(connStr);
+                            connection.Open();
+                            using var command = new SqliteCommand("SELECT @X;", connection);
+                            command.Parameters.Add("@X", SqliteType.Integer);
+
+                            command.Parameters["@X"].Value = (long)i;
+
+                            using (var result = command.ExecuteReader())
+                            {
+                                result.Read();
+                                var val = result.GetInt64(0);
+                                if (i != val)
+                                {
+                                    Assert.False(true);
+                                }
+                            }
+                        }
+                    }, count);
+                }
+
+            }
+
+            Benchmark.Dump(opsAggregate: Benchmark.OpsAggregate.MinTime);
         }
 
         private bool ReaderFunc(bool hasRow, QueryReader reader, long i1)

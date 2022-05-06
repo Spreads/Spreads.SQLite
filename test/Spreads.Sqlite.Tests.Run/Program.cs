@@ -1,14 +1,15 @@
-﻿using System;
-using Spreads.SQLite.Tests.Fast;
+﻿using Spreads.SQLite.Tests.Fast;
 
-namespace ConsoleApp1
+namespace Spreads.SQLite.Tests.Run
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var test = new FastTest(null);
-            test.FastBench();
+            var test = new FastTest();
+            // test.FastBenchShortLiveConnection();
+            // test.FastBench();
+            test.FastBenchDelegates();
         }
     }
 }
